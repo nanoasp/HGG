@@ -31,15 +31,17 @@ public class AnikiMarker : MonoBehaviour
 
     }
 
-    void Toggle()
+    public void Toggle()
     {
         if(mState == ANIKI_STATES.SANDWICH)
         {
             mTransform.localPosition = new Vector2(mFrontalPosition.x, mFrontalPosition.y);
+            mState = ANIKI_STATES.FRONTAL;
         }
         else
         {
             mTransform.localPosition = new Vector2(mSandwichPosition.x, mSandwichPosition.y);
+            mState = ANIKI_STATES.SANDWICH;
         }
     }
 }

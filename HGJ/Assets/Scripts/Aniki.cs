@@ -26,7 +26,7 @@ public class Aniki : MonoBehaviour
         Vector2 my_pos = mTransform.position;
 
         Vector2 dir = (marker_pos - my_pos);
-        dir.Normalize();
+        //dir.Normalize();
 
         mTransform.position = new Vector2(mTransform.position.x, mTransform.position.y) + (dir * mSpeed * Time.fixedDeltaTime);
     }

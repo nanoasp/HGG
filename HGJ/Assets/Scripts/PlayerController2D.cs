@@ -297,6 +297,9 @@ public class PlayerController2D : MonoBehaviour
     public GameObject mAnikiOne;
     public GameObject mAnikiTwo;
 
+    AnikiMarker mMarkerOne;
+    AnikiMarker mMarkerTwo;
+    
     public float mHorizontalMoveSpeed = 5.0f;
     public float mVerticalMoveSpeed = 5.0f;
 
@@ -350,8 +353,8 @@ public class PlayerController2D : MonoBehaviour
     };
 
     public ANIKI_STATES mAnikiState = ANIKI_STATES.SANDWICH;
-    public float mChangeTimer = 0.0f;
-    public float mChangeDelay = 0.5f;
+    float mChangeTimer = 0.0f;
+    public float mChangeDelay = 0.75f;
 
     // Start is called before the first frame update
     void Start()
@@ -370,7 +373,10 @@ public class PlayerController2D : MonoBehaviour
         mRB2D.gravityScale = mGravityScale;
         mFacingRight = mTransform.localScale.x >= 0;
 
-        mAnimator = this.GetComponent<Animator>();
+        //mAnimator = this.GetComponent<Animator>();
+
+        mMarkerOne = mAnikiOne.GetComponent<AnikiMarker>();
+        mMarkerTwo = mAnikiTwo.GetComponent<AnikiMarker>();
     }
 
     // Update is called once per frame
@@ -437,6 +443,8 @@ public class PlayerController2D : MonoBehaviour
         {
             mChangeTimer = mChangeDelay;
             mAnikiState = mAnikiState == ANIKI_STATES.FRONTAL ? ANIKI_STATES.SANDWICH : ANIKI_STATES.FRONTAL;
+            mMarkerOne.Toggle();
+            mMarkerTwo.Toggle();
         }
         else if(Input.GetKey(KeyCode.C))
         {
@@ -465,13 +473,13 @@ public class PlayerController2D : MonoBehaviour
         switch (mState)
         {
             case PLAYER_STATES.BEAM_ATTACK:
-                mBeamCounter -= mBeamDepletionRate * Time.fixedDeltaTime;
+                mBeamCounter -= mBeamDepletionRate * Time.deltaTime;
 
                 if (mBeamCounter < 0.0f)
                     mBeamCounter = 0.0f;
                 break;
             case PLAYER_STATES.CHARGE:
-                mBeamCounter += mBeamChargeRate * Time.fixedDeltaTime;
+                mBeamCounter += mBeamChargeRate * Time.deltaTime;
                 
                 if (mBeamCounter > mBeamMax)
                     mBeamCounter = mBeamMax;
@@ -481,7 +489,7 @@ public class PlayerController2D : MonoBehaviour
                 break;
         }
 
-        mChangeTimer -= Time.fixedDeltaTime;
+        mChangeTimer -= Time.deltaTime;
 
         if (mChangeTimer <= 0.0f)
             mChangeTimer = 0.0f;
