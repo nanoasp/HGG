@@ -409,7 +409,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mState: 0
-  ProjectilePrefab: {fileID: 0}
+  ProjectilePrefab: {fileID: 4130242524825457264, guid: 4259b2d7327ee11409599fec5497336e,
+    type: 3}
   WaterProjectilePrefab: {fileID: 0}
   mMainCamera: {fileID: 0}
   mAnikiOne: {fileID: 350488988}
