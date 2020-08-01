@@ -192,7 +192,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 790a17e3c75d6ec40a54676b4d75dc8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mSandwichPosition: {x: 0, y: 0}
-  mFrontalPosition: {x: 0.2, y: 0.22}
+  mFrontalPosition: {x: 0.23, y: 0.25}
 --- !u!1 &750635230
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnikiMarker: {fileID: 350488988}
-  mSpeed: 5
+  mSpeed: 1.3
 --- !u!212 &758438116
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -371,7 +371,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 790a17e3c75d6ec40a54676b4d75dc8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -391,7 +391,7 @@ Transform:
   m_GameObject: {fileID: 758438113}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0073287487, y: -0.3693763, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -413,8 +413,10 @@ MonoBehaviour:
     type: 3}
   WaterProjectilePrefab: {fileID: 0}
   mMainCamera: {fileID: 0}
-  mAnikiOne: {fileID: 350488988}
-  mAnikiTwo: {fileID: 902126752}
+  mMarkerOne_obj: {fileID: 350488988}
+  mMarkerTwo_obj: {fileID: 902126752}
+  mAnikiOne_obj: {fileID: 758438113}
+  mAnikiTwo_obj: {fileID: 1755088265}
   mHorizontalMoveSpeed: 5
   mVerticalMoveSpeed: 5
   mHorizontalAttackMoveSpeed: 5
@@ -503,7 +505,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 51591fc1dbb31834ba547bc32155c955, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -527,7 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mSandwichPosition: {x: 0, y: 0}
-  mFrontalPosition: {x: 0.2, y: -0.22}
+  mFrontalPosition: {x: 0.23, y: -0.25}
 --- !u!1 &1755088265
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnikiMarker: {fileID: 902126752}
-  mSpeed: 5
+  mSpeed: 2
 --- !u!212 &1755088267
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -599,7 +601,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 51591fc1dbb31834ba547bc32155c955, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -619,7 +621,7 @@ Transform:
   m_GameObject: {fileID: 1755088265}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0073287487, y: -2.3693762, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

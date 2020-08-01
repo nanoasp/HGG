@@ -302,12 +302,19 @@ public class PlayerController2D : MonoBehaviour
     public GameObject ProjectilePrefab;
     public GameObject WaterProjectilePrefab;
     public GameObject mMainCamera;
-    public GameObject mAnikiOne;
-    public GameObject mAnikiTwo;
+
+    public GameObject mMarkerOne_obj;
+    public GameObject mMarkerTwo_obj;
 
     AnikiMarker mMarkerOne;
     AnikiMarker mMarkerTwo;
-    
+
+    public GameObject mAnikiOne_obj;
+    public GameObject mAnikiTwo_obj;
+
+    Aniki mAnikiOne;
+    Aniki mAnikiTwo;
+
     public float mHorizontalMoveSpeed = 5.0f;
     public float mVerticalMoveSpeed = 5.0f;
 
@@ -383,8 +390,10 @@ public class PlayerController2D : MonoBehaviour
 
         //mAnimator = this.GetComponent<Animator>();
 
-        mMarkerOne = mAnikiOne.GetComponent<AnikiMarker>();
-        mMarkerTwo = mAnikiTwo.GetComponent<AnikiMarker>();
+        mMarkerOne = mMarkerOne_obj.GetComponent<AnikiMarker>();
+        mMarkerTwo = mMarkerTwo_obj.GetComponent<AnikiMarker>();
+        mAnikiOne = mAnikiOne_obj.GetComponent<Aniki>();
+        mAnikiTwo = mAnikiTwo_obj.GetComponent<Aniki>();
     }
 
     // Update is called once per frame
@@ -453,6 +462,8 @@ public class PlayerController2D : MonoBehaviour
             mAnikiState = mAnikiState == ANIKI_STATES.FRONTAL ? ANIKI_STATES.SANDWICH : ANIKI_STATES.FRONTAL;
             mMarkerOne.Toggle();
             mMarkerTwo.Toggle();
+            mAnikiOne.Toggle();
+            mAnikiTwo.Toggle();
         }
         else if(Input.GetKey(KeyCode.C))
         {

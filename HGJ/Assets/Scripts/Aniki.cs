@@ -6,6 +6,13 @@ using UnityEngine.Timeline;
 
 public class Aniki : MonoBehaviour
 {
+    public enum ANIKI_STATES
+    {
+        SANDWICH = 0,
+        FRONTAL,
+    };
+
+    ANIKI_STATES mState;
     public GameObject AnikiMarker;
     Transform mTransform;
     Transform mMarkerTransform;
@@ -15,6 +22,7 @@ public class Aniki : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mState = ANIKI_STATES.SANDWICH;
         mMarkerTransform = AnikiMarker.GetComponent<Transform>();
         mTransform = GetComponent<Transform>();
     }
@@ -29,5 +37,19 @@ public class Aniki : MonoBehaviour
         //dir.Normalize();
 
         mTransform.position = new Vector2(mTransform.position.x, mTransform.position.y) + (dir * mSpeed * Time.fixedDeltaTime);
+    }
+
+    public void Toggle()
+    {
+        if (mState == ANIKI_STATES.SANDWICH)
+        {
+            mTransform.Rotate(new Vector3(0.0f, 0.0f, 90.0f));
+            mState = ANIKI_STATES.FRONTAL;
+        }
+        else
+        {
+            mTransform.Rotate(new Vector3(0.0f, 0.0f, -90.0f));
+            mState = ANIKI_STATES.SANDWICH;
+        }
     }
 }
