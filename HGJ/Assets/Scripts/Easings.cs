@@ -45,6 +45,10 @@ public class Easing
 		{
 			return 1f + ((k -= 1f) * k * k);
 		}
+		public static float Out(float k, float treshold)
+		{
+			return treshold + ((k -= treshold) * k * k);
+		}
 
 		public static float InOut(float k)
 		{

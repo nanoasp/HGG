@@ -29,7 +29,7 @@ public class Trolleybehaviour : MonoBehaviour
         
         myBullets.Add(newbullet);
         variationFlag++;
-        if (variationFlag > myBulletsVariations.Count) {
+        if (variationFlag >= myBulletsVariations.Count) {
             variationFlag = 0;
         }
     }
