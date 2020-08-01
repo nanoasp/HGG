@@ -25,6 +25,7 @@ public class MainCamera : MonoBehaviour
     void Start()
     {
         mCamTransform = gameObject.transform;
+        mOriginalPosition = gameObject.transform.position;
     }
 
     // Update is called once per frame
