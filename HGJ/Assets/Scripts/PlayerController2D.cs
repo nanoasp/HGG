@@ -297,8 +297,6 @@ public class PlayerController2D : MonoBehaviour
         BEAM_ATTACK
     };
 
-    public PLAYER_STATES mState;
-
     public GameObject ProjectilePrefab;
     public GameObject WaterProjectilePrefab;
     public GameObject mMainCamera;
@@ -349,8 +347,8 @@ public class PlayerController2D : MonoBehaviour
     ///                                                ///
     //////////////////////////////////////////////////////
  
-    public float mBeamChargeRate = 2.0f;
-    public float mBeamDepletionRate = 2.5f;
+    public float mBeamChargeRate = 5.0f;
+    public float mBeamDepletionRate = 5.5f;
     public float mBeamMax = 100.0f;
     public float mBeamCounter = 0.0f;
     public float mBeamThreshold = 30.0f;
@@ -451,15 +449,16 @@ public class PlayerController2D : MonoBehaviour
         //}
 
         //check for attack
-        if ((mBeamCounter > mBeamThreshold || mState == PLAYER_STATES.BEAM_ATTACK) && Input.GetKey(KeyCode.Space))
+        if ((mBeamCounter > mBeamThreshold || (PLAYER_STATES)mStateMachine.GetStateNumber() == PLAYER_STATES.BEAM_ATTACK) && Input.GetKey(KeyCode.Space))
         {
-            mStateMachine.ChangeState((int)PLAYER_STATES.ATTACK);
-            mAnimator.SetInteger("state", (int)PLAYER_STATES.ATTACK);
+            mStateMachine.ChangeState((int)PLAYER_STATES.BEAM_ATTACK);
+            //mAnimator.SetInteger("state", (int)PLAYER_STATES.BEAM_ATTACK);
         }
         else if (mChangeTimer <= 0.0f && Input.GetKey(KeyCode.X))
         {
             mChangeTimer = mChangeDelay;
             mAnikiState = mAnikiState == ANIKI_STATES.FRONTAL ? ANIKI_STATES.SANDWICH : ANIKI_STATES.FRONTAL;
+
             mMarkerOne.Toggle();
             mMarkerTwo.Toggle();
             mAnikiOne.Toggle();
@@ -489,7 +488,7 @@ public class PlayerController2D : MonoBehaviour
             }
         }
 
-        switch (mState)
+        switch ((PLAYER_STATES)(mStateMachine.GetStateNumber()))
         {
             case PLAYER_STATES.BEAM_ATTACK:
                 mBeamCounter -= mBeamDepletionRate * Time.deltaTime;
@@ -519,7 +518,7 @@ public class PlayerController2D : MonoBehaviour
         // Apply movement velocity
         float movespd_x, movespd_y;
 
-        switch(mState)
+        switch((PLAYER_STATES)mStateMachine.GetStateNumber())
         {
             default:
             case PLAYER_STATES.MOVE:

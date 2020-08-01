@@ -408,7 +408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f785de63d025c8c438f03c0a0af6efb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mState: 0
   ProjectilePrefab: {fileID: 4130242524825457264, guid: 4259b2d7327ee11409599fec5497336e,
     type: 3}
   WaterProjectilePrefab: {fileID: 0}
@@ -427,8 +426,8 @@ MonoBehaviour:
   mVerticalBeamMoveSpeed: 5
   mProjectileSpeed: 8
   mFacingRight: 1
-  mBeamChargeRate: 2
-  mBeamDepletionRate: 2.5
+  mBeamChargeRate: 10
+  mBeamDepletionRate: 15
   mBeamMax: 100
   mBeamCounter: 0
   mBeamThreshold: 30
