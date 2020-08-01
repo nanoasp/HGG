@@ -85,6 +85,11 @@ public class ChargeState : IState
 public class AttackState : IState
 {
     PlayerController2D owner;
+    GameObject AttackCollider;
+
+    float offset = 1.5f;
+    float timer = 0.3f;
+    float delay = 0.2f;
 
     public AttackState(PlayerController2D owner)
     {
@@ -94,37 +99,40 @@ public class AttackState : IState
     void Spawn()
     {
         //Debug.Log("entering player attack state");
-        //Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
-        //
-        //if (owner.mFacingRight)
-        //    AttackCollider = PlayerController2D.Instantiate(owner.RightSmashPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
-        //else
-        //    AttackCollider = PlayerController2D.Instantiate(owner.LeftSmashPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
-        //
-        //AttackCollider.transform.position = owner.transform.position + Owner_right * offset + new Vector3(0.0f, -1.0f, 0.0f);
-        //
-        //if(owner.mMainCamera != null)
-        //    owner.mMainCamera.GetComponent<MainCamera>().Shake(2.0f, 0.1f);
-        //
-        //owner.isSmashing = true;
+        Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
+
+        AttackCollider = PlayerController2D.Instantiate(owner.ProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, -90.0f)) as GameObject;
+
+        AttackCollider.transform.position = owner.transform.position + Owner_right * offset;
+        AttackCollider.GetComponent<Rigidbody2D>().velocity = new Vector2 (Owner_right.x, Owner_right.y) * owner.mProjectileSpeed;
+        
+        //owner.playShoot();
+
     }
+
     public void Enter()
     {
-        //owner.playSlam();
-        Spawn();
+
     }
 
     public void Execute()
     {
+        //Debug.Log("updating player attack state");
 
+        timer += Time.deltaTime;
+
+        if (timer > delay)
+        {
+            Spawn();
+            timer = 0.0f;
+        }
     }
 
     public void Exit()
     {
         //Debug.Log("exiting player attack state");
-        //PlayerController2D.Destroy(AttackCollider, 0.0f);
-        //owner.stopSlam();
-        //owner.isSmashing = false;
+        //owner.stopShoot();
+
     }
 }
 
@@ -449,12 +457,12 @@ public class PlayerController2D : MonoBehaviour
         else if(Input.GetKey(KeyCode.C))
         {
             mStateMachine.ChangeState((int)PLAYER_STATES.CHARGE);
-            mAnimator.SetInteger("state", (int)PLAYER_STATES.CHARGE);
+            //mAnimator.SetInteger("state", (int)PLAYER_STATES.CHARGE);
         }
         else if (Input.GetKey(KeyCode.Z))
         {
             mStateMachine.ChangeState((int)PLAYER_STATES.ATTACK);
-            mAnimator.SetInteger("state", (int)PLAYER_STATES.ATTACK);
+            //mAnimator.SetInteger("state", (int)PLAYER_STATES.ATTACK);
         }
         else
         {
