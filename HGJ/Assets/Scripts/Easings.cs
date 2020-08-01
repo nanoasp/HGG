@@ -142,7 +142,10 @@ public class Easing
 		{
 			return Mathf.Sqrt(1f - ((k -= 1f) * k));
 		}
-
+		public static float Out(float k, float treshhold)
+		{
+			return Mathf.Sqrt(treshhold - ((k -= treshhold) * k));
+		}
 		public static float InOut(float k)
 		{
 			if ((k *= 2f) < 1f) return -0.5f * (Mathf.Sqrt(1f - k * k) - 1);

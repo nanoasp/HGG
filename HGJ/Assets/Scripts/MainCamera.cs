@@ -16,11 +16,6 @@ public class MainCamera : MonoBehaviour
     public GameObject TPSpawner;
     public GameObject Player;
 
-    //camera variables
-    float min_zoom = -10.0f;
-    float max_zoom = 8;
-    float damping = 0.5f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -31,18 +26,6 @@ public class MainCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3 p0 = TPSpawner.GetComponent<Spawner>().midpoint;
-        //Vector3 p1 = Player.transform.position;
-        //
-        //Vector3 distance = p0 - p1;
-        //Vector2 distance2 = new Vector2(distance.x, distance.y);
-        //float dist = Mathf.Min(distance2.magnitude * damping, max_zoom);
-        //
-        //Vector3 midpoint = (p0 + p1) * 0.5f;
-        //float new_z = min_zoom - 1.0f * dist;
-        //
-        //Vector3 new_pos = new Vector3(midpoint.x, midpoint.y, new_z);
-
         if (Input.GetKeyDown(KeyCode.T))
         {
             Shake(2.0f, 1.0f);

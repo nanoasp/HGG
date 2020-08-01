@@ -1,5 +1,9 @@
 sceneSetups:
-- path: Assets/Scenes/Water test scene.unity
+<<<<<<< HEAD
+- path: Assets/Scenes/yt cespool of shit.unity
+=======
+- path: Assets/Scenes/markus.unity
+>>>>>>> 75981563f5768ef1f7a9c25e91f2239731f99563
   isLoaded: 1
   isActive: 1
   isSubScene: 0
