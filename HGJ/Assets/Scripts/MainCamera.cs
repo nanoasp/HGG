@@ -6,11 +6,11 @@ public class MainCamera : MonoBehaviour
 {
     public Transform mCamTransform;
     public float mShakeDuration = 0.0f;
-    
+
     public float mShakeAmount = 0.7f;
     public float mDecreaseFactor = 1.0f;
 
-    Vector3 mOriginalPosition;
+    Vector3 mOriginalPosition = new Vector3(0.0f,0.0f,0.0f);
     bool mShaking;
 
     public GameObject TPSpawner;
@@ -30,17 +30,17 @@ public class MainCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 p0 = TPSpawner.GetComponent<Spawner>().midpoint;
-        Vector3 p1 = Player.transform.position;
-
-        Vector3 distance = p0 - p1;
-        Vector2 distance2 = new Vector2(distance.x, distance.y);
-        float dist = Mathf.Min(distance2.magnitude * damping, max_zoom);
-
-        Vector3 midpoint = (p0 + p1) * 0.5f;
-        float new_z = min_zoom - 1.0f * dist;
-
-        Vector3 new_pos = new Vector3(midpoint.x, midpoint.y, new_z);
+        //Vector3 p0 = TPSpawner.GetComponent<Spawner>().midpoint;
+        //Vector3 p1 = Player.transform.position;
+        //
+        //Vector3 distance = p0 - p1;
+        //Vector2 distance2 = new Vector2(distance.x, distance.y);
+        //float dist = Mathf.Min(distance2.magnitude * damping, max_zoom);
+        //
+        //Vector3 midpoint = (p0 + p1) * 0.5f;
+        //float new_z = min_zoom - 1.0f * dist;
+        //
+        //Vector3 new_pos = new Vector3(midpoint.x, midpoint.y, new_z);
 
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -52,7 +52,7 @@ public class MainCamera : MonoBehaviour
             if (mShakeDuration > 0.0f)
             {
                 Vector2 tmp = Random.insideUnitCircle;
-                mCamTransform.position = new_pos + new Vector3(tmp.x, tmp.y, 0.0f) * mShakeAmount;
+                mCamTransform.position = mOriginalPosition + new Vector3(tmp.x, tmp.y, 0.0f) * mShakeAmount;
 
                 mShakeDuration -= Time.deltaTime;
                 mShakeAmount *= 0.98f;
@@ -60,13 +60,13 @@ public class MainCamera : MonoBehaviour
             else
             {
                 mShakeDuration = 0.0f;
-                //mCamTransform.position = mOriginalPosition;
+                mCamTransform.position = mOriginalPosition;
                 mShaking = false;
             }
         }
         else
         {
-            mCamTransform.position = new_pos;
+            mCamTransform.position = mOriginalPosition;
         }
 
     }
@@ -79,7 +79,7 @@ public class MainCamera : MonoBehaviour
         mShakeDuration = _duration;
         mShakeAmount = _magnitude;
 
-        //mOriginalPosition = mCamTransform.position;
+        mOriginalPosition = mCamTransform.position;
         mShaking = true;
     }
 }

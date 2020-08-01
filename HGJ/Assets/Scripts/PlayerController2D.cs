@@ -1,5 +1,4 @@
-﻿/*
- * using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -87,7 +86,7 @@ public class AttackState : IState
     }
     public void Enter()
     {
-        owner.playSlam();
+        //owner.playSlam();
         Spawn();
     }
 
@@ -125,7 +124,7 @@ public class RollingState : IState
         AttackCollider.transform.localPosition = new Vector3(0.0f, 0.1f, 0.0f);
         owner.isRolling = true;
         owner.RollingVFX.SetActive(true);
-        owner.playRoll();
+        //owner.playRoll();
 
     }
 
@@ -142,7 +141,7 @@ public class RollingState : IState
         PlayerController2D.Destroy(AttackCollider, 0.0f);
         owner.isRolling = false;
         owner.RollingVFX.SetActive(false);
-        owner.stopRoll();
+        //owner.stopRoll();
 
 
     }
@@ -170,7 +169,7 @@ public class WhirlwindState : IState
 
         owner.isWhirlwind = true;
         owner.WhirlwindVFX.SetActive(true);
-        owner.playSpin();
+        //owner.playSpin();
 
     }
 
@@ -187,7 +186,7 @@ public class WhirlwindState : IState
         PlayerController2D.Destroy(AttackCollider, 0.0f);
         owner.isWhirlwind = false;
         owner.WhirlwindVFX.SetActive(false);
-        owner.stopSpin();
+        //owner.stopSpin();
 
     }
 }
@@ -220,7 +219,7 @@ public class ThrowState : IState
         AttackCollider.GetComponent<Rigidbody2D>().velocity = new Vector2 (Owner_right.x, Owner_right.y) * owner.mProjectileSpeed;
         
         owner.isThrowing = true;
-        owner.playShoot();
+        //owner.playShoot();
 
     }
     public void Enter()
@@ -476,57 +475,10 @@ public class PlayerController2D : MonoBehaviour
         mRB2D.velocity = new Vector2((mDirection) * movespd_x, (mVertical) * movespd_y);
     }
 
-
-
-
-
-    public void playRoll()
-    {
-        FindObjectOfType<AudioManager>().Play("Roll");
-
-    }
-    public void stopRoll()
-    {
-        FindObjectOfType<AudioManager>().Stop("Roll");
-
-    }
-    public void playSpin()
-    {
-        FindObjectOfType<AudioManager>().Play("Spin");
-
-    }
-    public void stopSpin()
-    {
-        FindObjectOfType<AudioManager>().Stop("Spin");
-
-    }
-
-    public void playShoot()
-    {
-        FindObjectOfType<AudioManager>().Play("Shoot");
-
-    }
-    public void stopShoot()
-    {
-        FindObjectOfType<AudioManager>().Stop("Shoot");
-
-    }
-
-    public void playSlam()
-    {
-        FindObjectOfType<AudioManager>().Play("Slam");
-
-    }
-    public void stopSlam()
-    {
-        FindObjectOfType<AudioManager>().Stop("Slam");
-
-    }
-
-
-
-
-
+    //public void playRoll()
+    //{
+    //    FindObjectOfType<AudioManager>().Play("Roll");
+    //
+    //}
 
 }
-*/
