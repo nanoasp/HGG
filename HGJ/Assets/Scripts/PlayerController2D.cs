@@ -465,13 +465,13 @@ public class PlayerController2D : MonoBehaviour
         switch (mState)
         {
             case PLAYER_STATES.BEAM_ATTACK:
-                mBeamCounter -= mBeamDepletionRate * Time.deltaTime;
+                mBeamCounter -= mBeamDepletionRate * Time.fixedDeltaTime;
 
                 if (mBeamCounter < 0.0f)
                     mBeamCounter = 0.0f;
                 break;
             case PLAYER_STATES.CHARGE:
-                mBeamCounter += mBeamChargeRate * Time.deltaTime;
+                mBeamCounter += mBeamChargeRate * Time.fixedDeltaTime;
                 
                 if (mBeamCounter > mBeamMax)
                     mBeamCounter = mBeamMax;
@@ -481,7 +481,7 @@ public class PlayerController2D : MonoBehaviour
                 break;
         }
 
-        mChangeTimer -= Time.deltaTime;
+        mChangeTimer -= Time.fixedDeltaTime;
 
         if (mChangeTimer <= 0.0f)
             mChangeTimer = 0.0f;
