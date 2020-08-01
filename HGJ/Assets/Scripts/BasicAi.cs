@@ -21,11 +21,14 @@ public class BasicAi : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         hp = startHp;
         flipTime = flipTimer;
 
         if (jump)
             velocity.y += jumpVelocity;
+
+        Invoke("Destroy", 20.0f);
     }
 
     // Update is called once per frame
@@ -39,7 +42,7 @@ public class BasicAi : MonoBehaviour
 
         if (hp < 0)
         {
-            Destroy(gameObject);
+            Destroy();
             Instantiate(dropResource, transform);
         }
 
@@ -51,5 +54,18 @@ public class BasicAi : MonoBehaviour
 
         transform.position += new Vector3(velocity.x, velocity.y) * speed * Time.deltaTime;
         flipTime -= Time.deltaTime;
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.gameObject.tag == "PLayerAttack")
+        {
+            hp -= 1;
+        }
+    }
+
+    void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 }
