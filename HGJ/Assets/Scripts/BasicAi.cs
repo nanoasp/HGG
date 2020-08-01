@@ -58,7 +58,7 @@ public class BasicAi : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.tag == "PLayerAttack")
+        if(col.gameObject.tag == "PlayerAttack")
         {
             hp -= 1;
         }
