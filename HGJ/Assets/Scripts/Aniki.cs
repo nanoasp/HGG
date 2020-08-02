@@ -18,6 +18,7 @@ public class Aniki : MonoBehaviour
     Transform mMarkerTransform;
 
     public float mSpeed = 5.0f;
+    public int mHp = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +51,15 @@ public class Aniki : MonoBehaviour
         {
             mTransform.Rotate(new Vector3(0.0f, 0.0f, -90.0f));
             mState = ANIKI_STATES.SANDWICH;
+        }
+    }
+
+    void OnTriggerEnter2d(Collision2D col)
+    {
+        if(col.gameObject.tag == "EnemyAttack")
+        {
+            mHp -= 1;
+            mHp = mHp < 0 ? 0 : mHp;
         }
     }
 }
