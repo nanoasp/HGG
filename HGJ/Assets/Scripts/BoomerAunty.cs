@@ -48,7 +48,7 @@ public class BoomerAunty : MonoBehaviour
         mStateMachine.RegisterState(new BAIdleState(this), (int)BOSSATTACKS.IDLE);
         mStateMachine.RegisterState(new P1SHOOTFRONTState(this), (int)BOSSATTACKS.P1SHOOTFRONT);
         mStateMachine.RegisterState(new P1DASHFRONTState(this), (int)BOSSATTACKS.P1DASHFRONT);
-        //mStateMachine.RegisterState(new P2ARCBOMBARDMENTState(this), (int)BOSSATTACKS.P2ARCBOMBARDMENT);
+        mStateMachine.RegisterState(new P2ARCBOMBARDMENTState(this), (int)BOSSATTACKS.P2ARCBOMBARDMENT);
         //mStateMachine.RegisterState(new P2SPINState(this), (int)BOSSATTACKS.P2SPIN);
         //mStateMachine.RegisterState(new P3SHOOTFRONTState(this), (int)BOSSATTACKS.P3SHOOTFRONT);
         //mStateMachine.RegisterState(new P3somethingState(this), (int)BOSSATTACKS.P3something);
@@ -282,7 +282,7 @@ public class P1DASHFRONTState : IState
         currtimer += Time.deltaTime;
         // move closer to player
         moveTimer += Time.deltaTime;
-        if (!isDashing && currtimer < delayBeforeDashing && reseting == false)
+        if (!isDashing && currtimer > delayBeforeDashing && reseting == false)
         {
             // starts shooting process
             //isShooting = true;
@@ -303,7 +303,7 @@ public class P1DASHFRONTState : IState
         }
 
 
-        else if (moveTimer > 1.2f && reseting == false)
+        else if (reseting)
         {
 
             float ypos = 0;
@@ -312,16 +312,13 @@ public class P1DASHFRONTState : IState
                 ypos += playercollectionpos[i];
             }
             ypos /= playercollectionpos.Count;
-            Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.55f, 0.95f), 0, 0));// + new Vector3(0,ypos/2,0);
-
+            Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.85f, 0.95f), 0, 0));// + new Vector3(0,ypos/2,0);
             newpos = new Vector3(p.x, ypos, 0);
 
-        }
-        else if (!isDashing && reseting == false)
-        {
             moveTrolleytoDefultPos();
             owner.transform.position += (newpos - owner.transform.position) * Time.deltaTime;
-        }   
+        }
+  
 
         trackingTimer += Time.deltaTime;
         if (trackingTimer > 0.8f)
@@ -346,10 +343,14 @@ public class P1DASHFRONTState : IState
 
     void moveTrolleytoFirePos()
     {
-        float rotDiff = -45.0f - owner.myTrolley.transform.rotation.eulerAngles.z;
+        float rotDiff = 315.0f - owner.myTrolley.transform.rotation.eulerAngles.z;
         owner.myTrolley.transform.Rotate(new Vector3(0, 0, (rotDiff * Time.deltaTime)));
+        
+        
+        owner.myTrolley.transform.position += ((owner.transform.position + (Vector3.left *3)) - owner.myTrolley.transform.position) * Time.deltaTime;
 
-        if (owner.myTrolley.transform.rotation.eulerAngles.z < 0.05f && owner.myTrolley.transform.rotation.eulerAngles.z > -0.05f)
+
+        if (owner.myTrolley.transform.rotation.eulerAngles.z < 315.05f && owner.myTrolley.transform.rotation.eulerAngles.z > 314.05f)
         {
             isDashing = true;
             currtimer = 0.0f;
@@ -359,13 +360,14 @@ public class P1DASHFRONTState : IState
     void moveTrolleytoDefultPos()
     {
         float rotDiff = -0.0f - owner.myTrolley.transform.rotation.eulerAngles.z;
-        Vector3 targetDir = camera.ViewportToWorldPoint(new Vector3(0.8f, 0, 0)) - owner.transform.position;
-        float distToTarget = targetDir.sqrMagnitude;
+        Vector3 targetDir = camera.ViewportToWorldPoint(new Vector3(0.8f, 0, 0)) - (owner.transform.position + (Vector3.left *3));
+        targetDir.z = 0;
+        float distToTarget = targetDir.magnitude;
         targetDir.Normalize();  
 
         owner.myTrolley.transform.position += targetDir * Time.deltaTime;
         owner.myTrolley.transform.Rotate(new Vector3(0, 0, (rotDiff * Time.deltaTime)));
-        if (distToTarget < 0.5f)
+        if (owner.transform.position.x > camera.ViewportToWorldPoint(new Vector3(0.75f, 0, 0)).x)
         {
             isDashing = false;
             currtimer = 0.0f;
@@ -377,3 +379,162 @@ public class P1DASHFRONTState : IState
 
     }
 }
+
+public class P2ARCBOMBARDMENTState : IState
+{
+    BoomerAunty owner;
+
+    float delayBeforeShooting = 3.8f;
+    float shotDelay = 0.8f;
+    bool isShooting;
+    float currtimer = 0.0f;
+    float aligntimer = 0.0f;
+    int shotCount;
+    float phaseTimer = 0.0f;
+    float moveTimer = 0.0f;
+    List<float> playercollectionpos = new List<float>();
+    float trackingTimer;
+    Camera camera;
+    bool moving;
+    Vector3 newpos;
+    public P2ARCBOMBARDMENTState(BoomerAunty owner)
+    {
+        this.owner = owner;
+        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+    }
+    public void Enter()
+    {
+        owner.currentHealth = 100;
+        isShooting = false;
+        currtimer = 0.0f;
+        playercollectionpos.Add(owner.player.transform.position.y);
+        moving = false;
+    }
+
+    public void Execute()
+    {
+        currtimer += Time.deltaTime;
+        if (!isShooting && currtimer > delayBeforeShooting)
+        {
+            // starts shooting process
+            //isShooting = true;
+            moveTrolleytoFirePos();
+
+
+        }
+        else if (isShooting && currtimer > shotDelay)
+        {
+            // update numeric spring
+            if (shotCount < 3)
+            {
+                // shoots a bullet
+                owner.myTrolley.GetComponent<Trolleybehaviour>().ShootBullet();
+                // TODO :: add recoil
+
+                shotCount++;
+                currtimer = 0;
+            }
+            else
+            {
+                moveTrolleytoDefultPos();
+            }
+
+        }
+
+
+        // move closer to player
+        moveTimer += Time.deltaTime;
+        if (moveTimer > 1.2f && moving == false)
+        {
+            moving = true;
+            float ypos = 0;
+            for (var i = 0; i < playercollectionpos.Count; i++)
+            {
+                ypos += playercollectionpos[i];
+            }
+            ypos /= playercollectionpos.Count;
+            Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.65f, 0.95f), 0, 0));// + new Vector3(0,ypos/2,0);
+
+            newpos = new Vector3(p.x, ypos, 0);
+
+        }
+        if (moving)
+        {
+            owner.transform.position += (newpos - owner.transform.position) * Time.deltaTime;
+
+            if (moveTimer > 2.2f)
+            {
+                moveTimer = 0.0f;
+                moving = false;
+            }
+        }
+
+        trackingTimer += Time.deltaTime;
+        if (trackingTimer > 1.0f)
+        {
+            if (playercollectionpos.Count > 10)
+            {
+                playercollectionpos.RemoveAt(0);
+            }
+            playercollectionpos.Add(owner.player.transform.position.y);
+            trackingTimer = 0;
+        }
+        phaseTimer += Time.deltaTime;
+        if (owner.currentHealth < 0 || phaseTimer > 60.0f)
+        {
+
+            moveTrolleytoDefultPos();
+            if (!isShooting && currtimer == 0)
+            {
+                owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.P1DASHFRONT);
+            }
+        }
+    }
+
+    void moveTrolleytoFirePos()
+    {
+        Vector3 tspos = owner.transform.position + (Vector3.left * 3);
+        Vector3 tepos = owner.transform.position + (Vector3.up * 4);
+
+
+        // should be correct pls test
+        aligntimer += Time.deltaTime;
+        float mappedAligntimer = Easing.Cubic.Out(aligntimer);
+        owner.myTrolley.transform.position = Vector3.Lerp(tspos, tepos, mappedAligntimer);
+        owner.myTrolley.transform.Rotate(new Vector3(0, 0, (90 / (1.0f / Time.deltaTime))));
+        if (aligntimer > 1.0f)
+        {
+            isShooting = true;
+            currtimer = 0.0f;
+            aligntimer = 0.0f;
+        }
+    }
+    void moveTrolleytoDefultPos()
+    {
+        Vector3 tepos = owner.transform.position + (Vector3.left * 3);
+        Vector3 tspos = owner.transform.position + (Vector3.up * 4);
+        aligntimer += Time.deltaTime;
+        // should be correct pls test
+        float rotDiff = 0.0f + owner.myTrolley.transform.rotation.eulerAngles.z;
+        owner.myTrolley.transform.Rotate(new Vector3(0, 0, -(rotDiff * Time.deltaTime)));
+        //owner.myTrolley.transform.Rotate(new Vector3(0, 0, -(90 / (1.0f / Time.deltaTime))));
+        if (aligntimer > 1.0f && owner.myTrolley.transform.rotation.eulerAngles.z < 0.05f && owner.myTrolley.transform.rotation.eulerAngles.z > -0.05f)
+        {
+            isShooting = false;
+            currtimer = 0.0f;
+            aligntimer = 0.0f;
+            shotCount = 0;
+        }
+        else if (aligntimer <= 1.0f)
+        {
+
+            float mappedAligntimer = Easing.Cubic.Out(aligntimer);
+            owner.myTrolley.transform.position = Vector3.Lerp(tspos, tepos, mappedAligntimer);
+        }
+    }
+    public void Exit()
+    {
+
+    }
+}
+
