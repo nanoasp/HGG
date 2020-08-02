@@ -137,6 +137,8 @@ public class AttackState : IState
     }
 }
 
+
+
 public class BeamAttackState : IState
 {
     PlayerController2D owner;
@@ -144,7 +146,6 @@ public class BeamAttackState : IState
     Transform mAnikiOne;
     Transform mAnikiTwo;
 
-    float offset = 1.5f;
     float timer = 0.3f;
     float delay = 0.03f;
 
@@ -159,18 +160,21 @@ public class BeamAttackState : IState
     {
         //Debug.Log("entering player attack state");
         Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
-        Vector2 velocity = new Vector2(Owner_right.x, Owner_right.y) * Mathf.SmoothStep(0.0f, owner.mBeamProjectileSpeed, owner.mBeamCounter / owner.mBeamMax);//(owner.mBeamProjectileSpeed * (owner.mBeamCounter / owner.mBeamMax));
+        Vector2 velocity = new Vector2(Owner_right.x, Owner_right.y) * Mathf.Lerp(0.0f, owner.mBeamProjectileSpeed, owner.mBeamCounter / owner.mBeamMax);
         float size = 10.0f * (owner.mBeamCounter / owner.mBeamMax);
+        float offset = owner.mAnikiState == PlayerController2D.ANIKI_STATES.FRONTAL ? 1.0f : 1.5f;
+
+        size = size > 2.5f ? size : 2.5f;
 
         AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
         AttackCollider.transform.position = mAnikiOne.transform.position + Owner_right * offset;
         AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
-        //AttackCollider.GetComponent<Transform>().localScale = new Vector2(size, size);
+        AttackCollider.GetComponent<Transform>().localScale = new Vector3(size, size, 5.0f);
 
         AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
         AttackCollider.transform.position = mAnikiTwo.transform.position + Owner_right * offset;
         AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
-        //AttackCollider.GetComponent<Transform>().localScale = new Vector2(size, size);
+        AttackCollider.GetComponent<Transform>().localScale = new Vector3(size, size, 5.0f);
         //owner.playShoot();
 
     }
@@ -185,13 +189,13 @@ public class BeamAttackState : IState
         //Debug.Log("updating player attack state");
 
         timer += Time.deltaTime;
-
+        
         if (timer > delay)
         {
             Spawn();
             timer = 0.0f;
         }
-
+        //Spawn();
     }
 
     public void Exit()

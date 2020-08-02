@@ -838,11 +838,6 @@ PrefabInstance:
       propertyPath: mAnikiTwo_obj
       value: 
       objectReference: {fileID: 2092266796}
-    - target: {fileID: 8783726112936270820, guid: c2a2b9210d9c5b342a668ac1778e6695,
-        type: 3}
-      propertyPath: mBeamCounter
-      value: 100
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2a2b9210d9c5b342a668ac1778e6695, type: 3}
 --- !u!1 &821358744

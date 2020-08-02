@@ -119,9 +119,9 @@ MonoBehaviour:
   mBeamChargeRate: 10
   mBeamDepletionRate: 15
   mBeamMax: 100
-  mBeamCounter: 0
+  mBeamCounter: 100
   mBeamThreshold: 30
-  mBeamProjectileSpeed: 50
+  mBeamProjectileSpeed: 30
   mAnikiState: 0
   mChangeDelay: 0.75
 --- !u!50 &8209858689604722309
