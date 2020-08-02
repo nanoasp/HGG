@@ -294,7 +294,7 @@ public class P1DASHFRONTState : IState
             owner.transform.position += Vector3.left * dashSpeed * Time.deltaTime;
             owner.myTrolley.transform.position = owner.transform.position + (Vector3.left * 3);
             Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.1f, 0), 0, 0));// + new Vector3(0,ypos/2,0);
-            Debug.Log("dashing");
+
             if (owner.transform.position.x < p.x)
             {
                 isDashing = false;
