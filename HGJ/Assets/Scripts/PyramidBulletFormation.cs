@@ -13,7 +13,7 @@ public class PyramidBulletFormation : MonoBehaviour
 
     public int mIterations;
     public float mProjectileSpeed = 5;
-    public float mSpawnInterval = 1.0f;
+    public float mSpawnInterval;
 
     float mSpawnCounter;
     int mIterationCounter = 0;
@@ -44,34 +44,34 @@ public class PyramidBulletFormation : MonoBehaviour
 
         if (mSpawnCounter <= mSpawnInterval)
         {
-            mSpawnCounter += Time.fixedDeltaTime;
+            mSpawnCounter += Time.deltaTime;
             return;
         }
         else
             mSpawnCounter = 0.0f;
 
         GameObject bullet;
-        Vector3 forward = new Vector3(mMyTransform.forward.x, mMyTransform.forward.y, mMyTransform.forward.z);
-        forward.Normalize();
+        Vector3 forward = mMyTransform.localScale.x > 0? new Vector3(-1.0f, 0.0f, 0.0f) : new Vector3(1.0f, 0.0f, 0.0f);
+        forward *= mProjectileSpeed;
 
         switch (mIterationCounter)
         {
             case 0:
                 bullet = FormationBulletSpawner.Instantiate(mBulletPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
                 bullet.transform.position = mMyTransform.position;
-                bullet.GetComponent<Rigidbody2D>().velocity = forward * mProjectileSpeed;
+                bullet.GetComponent<Rigidbody2D>().velocity = forward;
                 break;
             case 1:
-                mFBSpawner1.Spawn(mBulletPrefab, mProjectileSpeed);
-                mFBSpawner2.Spawn(mBulletPrefab, mProjectileSpeed);
+                mFBSpawner1.Spawn(mBulletPrefab, forward);
+                mFBSpawner2.Spawn(mBulletPrefab, forward);
                 break;
             case 2:
                 bullet = FormationBulletSpawner.Instantiate(mBulletPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
                 bullet.transform.position = mMyTransform.position;
-                bullet.GetComponent<Rigidbody2D>().velocity = forward * mProjectileSpeed;
+                bullet.GetComponent<Rigidbody2D>().velocity = forward;
 
-                mFBSpawner3.Spawn(mBulletPrefab, mProjectileSpeed);
-                mFBSpawner4.Spawn(mBulletPrefab, mProjectileSpeed);
+                mFBSpawner3.Spawn(mBulletPrefab, forward);
+                mFBSpawner4.Spawn(mBulletPrefab, forward);
                 break;
         }
 
