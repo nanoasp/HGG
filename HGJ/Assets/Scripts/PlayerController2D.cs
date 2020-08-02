@@ -146,7 +146,6 @@ public class BeamAttackState : IState
     Transform mAnikiOne;
     Transform mAnikiTwo;
 
-    float offset = 1.5f;
     float timer = 0.3f;
     float delay = 0.03f;
 
@@ -163,6 +162,8 @@ public class BeamAttackState : IState
         Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
         Vector2 velocity = new Vector2(Owner_right.x, Owner_right.y) * Mathf.Lerp(0.0f, owner.mBeamProjectileSpeed, owner.mBeamCounter / owner.mBeamMax);
         float size = 10.0f * (owner.mBeamCounter / owner.mBeamMax);
+        float offset = owner.mAnikiState == PlayerController2D.ANIKI_STATES.FRONTAL ? 1.0f : 1.5f;
+
         size = size > 2.5f ? size : 2.5f;
 
         AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
