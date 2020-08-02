@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 //https://sharpcoderblog.com/blog/2d-platformer-character-controller
@@ -139,42 +140,64 @@ public class AttackState : IState
 public class BeamAttackState : IState
 {
     PlayerController2D owner;
+    GameObject AttackCollider;
+    Transform mAnikiOne;
+    Transform mAnikiTwo;
+
+    float offset = 1.5f;
+    float timer = 0.3f;
+    float delay = 0.1f;
 
     public BeamAttackState(PlayerController2D owner)
     {
         this.owner = owner;
+        mAnikiOne = owner.mAnikiOne_obj.GetComponent<Transform>();
+        mAnikiTwo = owner.mAnikiTwo_obj.GetComponent<Transform>();
     }
 
     void Spawn()
     {
         //Debug.Log("entering player attack state");
-        //Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
-        //
-        //if (owner.mFacingRight)
-        //    AttackCollider = PlayerController2D.Instantiate(owner.RightSmashPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
-        //else
-        //    AttackCollider = PlayerController2D.Instantiate(owner.LeftSmashPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
-        //
-        //AttackCollider.transform.position = owner.transform.position + Owner_right * offset + new Vector3(0.0f, -1.0f, 0.0f);
-        //
-        //if(owner.mMainCamera != null)
-        //    owner.mMainCamera.GetComponent<MainCamera>().Shake(2.0f, 0.1f);
-        //
-        //owner.isSmashing = true;
+        Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
+        Vector2 velocity = new Vector2(Owner_right.x, Owner_right.y) * Mathf.SmoothStep(0.0f, owner.mBeamProjectileSpeed, owner.mBeamCounter / owner.mBeamMax);//(owner.mBeamProjectileSpeed * (owner.mBeamCounter / owner.mBeamMax));
+        float size = 10.0f * (owner.mBeamCounter / owner.mBeamMax);
+
+        AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
+        AttackCollider.transform.position = mAnikiOne.transform.position + Owner_right * offset;
+        AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
+        AttackCollider.GetComponent<Transform>().localScale = new Vector2(size, size);
+
+        AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
+        AttackCollider.transform.position = mAnikiTwo.transform.position + Owner_right * offset;
+        AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
+        AttackCollider.GetComponent<Transform>().localScale = new Vector2(size, size);
+        //owner.playShoot();
+
     }
+
     public void Enter()
     {
-        Spawn();
+
     }
 
     public void Execute()
     {
+        //Debug.Log("updating player attack state");
 
+        timer += Time.deltaTime;
+
+        if (timer > delay)
+        {
+            Spawn();
+            timer = 0.0f;
+        }
     }
 
     public void Exit()
     {
         //Debug.Log("exiting player attack state");
+        //owner.stopShoot();
+
     }
 }
 
@@ -352,6 +375,7 @@ public class PlayerController2D : MonoBehaviour
     public float mBeamMax = 100.0f;
     public float mBeamCounter = 0.0f;
     public float mBeamThreshold = 30.0f;
+    public float mBeamProjectileSpeed = 20.0f;
 
     //////////////////////////////////////////////////////
     ///                                                ///
@@ -449,7 +473,7 @@ public class PlayerController2D : MonoBehaviour
         //}
 
         //check for attack
-        if ((mBeamCounter > mBeamThreshold || (PLAYER_STATES)mStateMachine.GetStateNumber() == PLAYER_STATES.BEAM_ATTACK) && Input.GetKey(KeyCode.Space))
+        if (mBeamCounter > 0.0f && (mBeamCounter > mBeamThreshold || (PLAYER_STATES)mStateMachine.GetStateNumber() == PLAYER_STATES.BEAM_ATTACK) && Input.GetKey(KeyCode.Space))
         {
             mStateMachine.ChangeState((int)PLAYER_STATES.BEAM_ATTACK);
             //mAnimator.SetInteger("state", (int)PLAYER_STATES.BEAM_ATTACK);
