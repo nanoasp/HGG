@@ -146,7 +146,7 @@ public class BeamAttackState : IState
 
     float offset = 1.5f;
     float timer = 0.3f;
-    float delay = 0.1f;
+    float delay = 0.03f;
 
     public BeamAttackState(PlayerController2D owner)
     {
@@ -165,12 +165,12 @@ public class BeamAttackState : IState
         AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
         AttackCollider.transform.position = mAnikiOne.transform.position + Owner_right * offset;
         AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
-        AttackCollider.GetComponent<Transform>().localScale = new Vector2(size, size);
+        //AttackCollider.GetComponent<Transform>().localScale = new Vector2(size, size);
 
         AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
         AttackCollider.transform.position = mAnikiTwo.transform.position + Owner_right * offset;
         AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
-        AttackCollider.GetComponent<Transform>().localScale = new Vector2(size, size);
+        //AttackCollider.GetComponent<Transform>().localScale = new Vector2(size, size);
         //owner.playShoot();
 
     }
@@ -191,6 +191,7 @@ public class BeamAttackState : IState
             Spawn();
             timer = 0.0f;
         }
+
     }
 
     public void Exit()
