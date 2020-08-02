@@ -104,25 +104,31 @@ public class P1SHOOTFRONTState : IState
 {
     BoomerAunty owner;
 
-    float delayBeforeShooting = 2.8f;
-    float shotDelay = 0.6f;
+    float delayBeforeShooting = 3.8f;
+    float shotDelay = 0.8f;
     bool isShooting;
     float currtimer = 0.0f;
     float aligntimer = 0.0f;
     int shotCount;
     float phaseTimer = 0.0f;
     float moveTimer = 0.0f;
-    List<float> playercollectionpos;
+    List<float> playercollectionpos = new List<float>();
     float trackingTimer;
+    Camera camera;
+    bool moving;
+    Vector3 newpos;
     public P1SHOOTFRONTState(BoomerAunty owner)
     {
         this.owner = owner;
+        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
     public void Enter()
     {
         owner.currentHealth = 100;
         isShooting = false;
         currtimer = 0.0f;
+        playercollectionpos.Add(owner.player.transform.position.y);
+        moving = false;
     }
 
     public void Execute()
@@ -137,10 +143,13 @@ public class P1SHOOTFRONTState : IState
         }
         else if (isShooting && currtimer > shotDelay)
         {
+            // update numeric spring
             if (shotCount < 3)
             {
                 // shoots a bullet
                 owner.myTrolley.GetComponent<Trolleybehaviour>().ShootBullet();
+                // TODO :: add recoil
+
                 shotCount++;
                 currtimer = 0;
             }
@@ -153,33 +162,42 @@ public class P1SHOOTFRONTState : IState
 
         // move closer to player
         moveTimer += Time.deltaTime;
-        if (moveTimer > 1.2f) {
+        if (moveTimer > 1.2f && moving == false) {
+            moving = true;
             float ypos = 0;
             for (var i = 0; i < playercollectionpos.Count; i++)
             {
                 ypos += playercollectionpos[i];
             }
             ypos /= playercollectionpos.Count;
-            Vector3 newpos = owner.transform.position + new Vector3(Random.Range(-2,2), ypos, 0);
+            Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.65f, 0.95f), 0, 0));// + new Vector3(0,ypos/2,0);
 
+            newpos = new Vector3(p.x, ypos, 0);
+
+        }
+        if (moving) {
+            owner.transform.position += (newpos - owner.transform.position) * Time.deltaTime;
 
             if (moveTimer > 2.2f)
             {
                 moveTimer = 0.0f;
+                moving = false;
             }
         }
-        if(trackingTimer > 1.0f ){
-            trackingTimer += Time.deltaTime;
+
+        trackingTimer += Time.deltaTime;
+        if (trackingTimer > 1.0f ){
             if (playercollectionpos.Count > 10) {
                 playercollectionpos.RemoveAt(0);
             }
             playercollectionpos.Add(owner.player.transform.position.y);
             trackingTimer = 0;
         }
-
+        phaseTimer += Time.deltaTime;
         if (owner.currentHealth < 0 || phaseTimer > 60.0f) {
+
             moveTrolleytoDefultPos();
-            if (isShooting && currtimer==0) { 
+            if (!isShooting && currtimer==0) { 
             owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.P1DASHFRONT);
             }
         }
@@ -188,6 +206,7 @@ public class P1SHOOTFRONTState : IState
     void moveTrolleytoFirePos() {
         Vector3 tspos = owner.transform.position + (Vector3.left * 3);
         Vector3 tepos = owner.transform.position + (Vector3.up * 4);
+
 
         // should be correct pls test
         aligntimer += Time.deltaTime;
@@ -204,18 +223,22 @@ public class P1SHOOTFRONTState : IState
     {
         Vector3 tepos = owner.transform.position + (Vector3.left*3);
         Vector3 tspos = owner.transform.position + (Vector3.up * 4);
-        // should be correct pls test
         aligntimer += Time.deltaTime;
-
-        float mappedAligntimer = Easing.Cubic.Out(aligntimer);
-        owner.myTrolley.transform.position = Vector3.Lerp(tspos, tepos, mappedAligntimer);
-        owner.myTrolley.transform.Rotate(new Vector3(0, 0, -(90 / (1.0f / Time.deltaTime))));
-        if (aligntimer > 1.0f)
+        // should be correct pls test
+        float rotDiff = 0.0f + owner.myTrolley.transform.rotation.eulerAngles.z;
+        owner.myTrolley.transform.Rotate(new Vector3(0, 0, -(rotDiff * Time.deltaTime)));
+        //owner.myTrolley.transform.Rotate(new Vector3(0, 0, -(90 / (1.0f / Time.deltaTime))));
+        if (aligntimer > 1.0f && owner.myTrolley.transform.rotation.eulerAngles.z < 0.05f && owner.myTrolley.transform.rotation.eulerAngles.z > -0.05f)
         {
             isShooting = false;
             currtimer = 0.0f;
             aligntimer = 0.0f;
             shotCount = 0;
+        }
+        else if(aligntimer <= 1.0f) {
+
+            float mappedAligntimer = Easing.Cubic.Out(aligntimer);
+            owner.myTrolley.transform.position = Vector3.Lerp(tspos, tepos, mappedAligntimer);
         }
     }
     public void Exit()
@@ -227,57 +250,126 @@ public class P1DASHFRONTState : IState
 {
     BoomerAunty owner;
 
-    float delayBeforeShooting = 2.8f;
-    float shotDelay = 0.6f;
-    bool isShooting;
+    float delayBeforeDashing = 4.8f;
+    bool isDashing;
     float currtimer = 0.0f;
-    float aligntimer = 0.0f;
-    int shotCount;
     float phaseTimer = 0.0f;
+    float moveTimer = 0.0f;
+    List<float> playercollectionpos = new List<float>();
+    float trackingTimer;
+    Camera camera;
+    bool reseting;
+    Vector3 newpos;
+
+    float dashSpeed;
     public P1DASHFRONTState(BoomerAunty owner)
     {
         this.owner = owner;
+        camera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
     public void Enter()
     {
         owner.currentHealth = 100;
-        isShooting = false;
+        isDashing = false;
         currtimer = 0.0f;
+        playercollectionpos.Add(owner.player.transform.position.y);
+        reseting = false;
+        dashSpeed = 18;
     }
 
     public void Execute()
     {
-        
+        currtimer += Time.deltaTime;
+        // move closer to player
+        moveTimer += Time.deltaTime;
+        if (!isDashing && currtimer < delayBeforeDashing && reseting == false)
+        {
+            // starts shooting process
+            //isShooting = true;
+            moveTrolleytoFirePos();
+        }
+        else if (isDashing)
+        {
+            // dash forwards
+            owner.transform.position += Vector3.left * dashSpeed * Time.deltaTime;
+            owner.myTrolley.transform.position = owner.transform.position + (Vector3.left * 3);
+            Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.1f, 0), 0, 0));// + new Vector3(0,ypos/2,0);
+            Debug.Log("dashing");
+            if (owner.transform.position.x < p.x)
+            {
+                isDashing = false;
+                reseting = true;
+            }
+        }
+
+
+        else if (moveTimer > 1.2f && reseting == false)
+        {
+
+            float ypos = 0;
+            for (var i = 0; i < playercollectionpos.Count; i++)
+            {
+                ypos += playercollectionpos[i];
+            }
+            ypos /= playercollectionpos.Count;
+            Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.55f, 0.95f), 0, 0));// + new Vector3(0,ypos/2,0);
+
+            newpos = new Vector3(p.x, ypos, 0);
+
+        }
+        else if (!isDashing && reseting == false)
+        {
+            moveTrolleytoDefultPos();
+            owner.transform.position += (newpos - owner.transform.position) * Time.deltaTime;
+        }   
+
+        trackingTimer += Time.deltaTime;
+        if (trackingTimer > 0.8f)
+        {
+            if (playercollectionpos.Count > 3)
+            {
+                playercollectionpos.RemoveAt(0);
+            }
+            playercollectionpos.Add(owner.player.transform.position.y);
+            trackingTimer = 0;
+        }
+
+        if (owner.currentHealth < 0 || phaseTimer > 60.0f)
+        {
+            moveTrolleytoDefultPos();
+            if (isDashing && currtimer == 0 && reseting == false)
+            {
+                owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.P2ARCBOMBARDMENT);
+            }
+        }
     }
 
     void moveTrolleytoFirePos()
     {
-        Vector3 tspos = owner.myTrolley.transform.position + (Vector3.left);
-        Vector3 tepos = owner.myTrolley.transform.position + (Vector3.up) + (Vector3.right);
-        Quaternion tsrot = owner.myTrolley.transform.rotation;
+        float rotDiff = -45.0f - owner.myTrolley.transform.rotation.eulerAngles.z;
+        owner.myTrolley.transform.Rotate(new Vector3(0, 0, (rotDiff * Time.deltaTime)));
 
-        // should be correct pls test
-        aligntimer = Easing.Circular.Out(aligntimer, 0.4f);
-        owner.myTrolley.transform.position = Vector3.Lerp(tspos, tepos, aligntimer);
-        owner.myTrolley.transform.Rotate(new Vector3(0, 0, -(90 / (0.4f / Time.deltaTime))));
-        if (aligntimer > 0.0f)
+        if (owner.myTrolley.transform.rotation.eulerAngles.z < 0.05f && owner.myTrolley.transform.rotation.eulerAngles.z > -0.05f)
         {
-            isShooting = true;
+            isDashing = true;
             currtimer = 0.0f;
+
         }
     }
     void moveTrolleytoDefultPos()
     {
-        Vector3 tepos = owner.myTrolley.transform.position + (Vector3.left);
-        Vector3 tspos = owner.myTrolley.transform.position + (Vector3.up) + (Vector3.right);
-        // should be correct pls test
-        aligntimer = Easing.Circular.Out(aligntimer, 0.4f);
-        owner.myTrolley.transform.position = Vector3.Lerp(tspos, tepos, aligntimer);
-        owner.myTrolley.transform.Rotate(new Vector3(0, 0, (90 / (0.4f / Time.deltaTime))));
-        if (aligntimer > 0.0f)
+        float rotDiff = -0.0f - owner.myTrolley.transform.rotation.eulerAngles.z;
+        Vector3 targetDir = camera.ViewportToWorldPoint(new Vector3(0.8f, 0, 0)) - owner.transform.position;
+        float distToTarget = targetDir.sqrMagnitude;
+        targetDir.Normalize();  
+
+        owner.myTrolley.transform.position += targetDir * Time.deltaTime;
+        owner.myTrolley.transform.Rotate(new Vector3(0, 0, (rotDiff * Time.deltaTime)));
+        if (distToTarget < 0.5f)
         {
-            isShooting = false;
+            isDashing = false;
             currtimer = 0.0f;
+            reseting = false;
         }
     }
     public void Exit()
