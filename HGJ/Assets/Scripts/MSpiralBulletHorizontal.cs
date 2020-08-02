@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiralBulletHorizontal : MonoBehaviour
+public class MSpiralBulletVertical : MonoBehaviour
 {
     public float mAmplitudeGrowth;
     public float mAngleGrowth;
@@ -17,16 +17,16 @@ public class SpiralBulletHorizontal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mMyTransform = GetComponent<Transform>();    
+        mMyTransform = GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float x = Mathf.Cos(mAngle) * mAmplitude;
-        float y = Mathf.Sin(mAngle) * mAmplitude;
+        float y = Mathf.Cos(mAngle) * mAmplitude;
+        float x = Mathf.Sin(mAngle) * mAmplitude;
 
-        mMyTransform.position = mStartingPosition + new Vector2(x, y);
+        mMyTransform.localPosition = mStartingPosition + new Vector2(x, y);
         mAngle += Time.deltaTime * mAngleGrowth;
         mAmplitude += Time.deltaTime * mAmplitudeGrowth;
     }

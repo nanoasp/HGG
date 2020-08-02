@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiralBulletFormation : MonoBehaviour
+public class MovingSpiralFormation : MonoBehaviour
 {
     public GameObject mVerticalBulletPrefab;
     public GameObject mHorizontalBulletPrefab;
@@ -31,34 +31,38 @@ public class SpiralBulletFormation : MonoBehaviour
         }
         else
             mSpawnCounter = 0.0f;
-        
+
         GameObject bullet;
         bullet = SpiralBulletFormation.Instantiate(mHorizontalBulletPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
         bullet.transform.position = mMyTransform.position;
-        SpiralBulletHorizontal sp = bullet.GetComponent<SpiralBulletHorizontal>();
+        MSpiralBulletHorizontal sp = bullet.GetComponent<MSpiralBulletHorizontal>();
         sp.mAmplitudeGrowth = mAmplitudeGrowthSpeed;
         sp.mAngleGrowth = mAngleGrowthSpeed;
-        sp.mStartingPosition = mMyTransform.position;
+
+        sp.transform.parent = mMyTransform;
 
         bullet = SpiralBulletFormation.Instantiate(mHorizontalBulletPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
         bullet.transform.position = mMyTransform.position;
-        sp = bullet.GetComponent<SpiralBulletHorizontal>();
+        sp = bullet.GetComponent<MSpiralBulletHorizontal>();
         sp.mAmplitudeGrowth = -mAmplitudeGrowthSpeed;
         sp.mAngleGrowth = mAngleGrowthSpeed;
-        sp.mStartingPosition = mMyTransform.position;
+
+        sp.transform.parent = mMyTransform;
 
         bullet = SpiralBulletFormation.Instantiate(mVerticalBulletPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
         bullet.transform.position = mMyTransform.position;
-        SpiralBulletVertical spv = bullet.GetComponent<SpiralBulletVertical>();
+        MSpiralBulletVertical spv = bullet.GetComponent<MSpiralBulletVertical>();
         spv.mAmplitudeGrowth = mAmplitudeGrowthSpeed;
         spv.mAngleGrowth = -mAngleGrowthSpeed;
-        spv.mStartingPosition = mMyTransform.position;
+
+        spv.transform.parent = mMyTransform;
 
         bullet = SpiralBulletFormation.Instantiate(mVerticalBulletPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
         bullet.transform.position = mMyTransform.position;
-        spv = bullet.GetComponent<SpiralBulletVertical>();
+        spv = bullet.GetComponent<MSpiralBulletVertical>();
         spv.mAmplitudeGrowth = -mAmplitudeGrowthSpeed;
         spv.mAngleGrowth = -mAngleGrowthSpeed;
-        spv.mStartingPosition = mMyTransform.position;
+       
+        spv.transform.parent = mMyTransform;
     }
 }

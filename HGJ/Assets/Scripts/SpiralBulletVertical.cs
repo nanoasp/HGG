@@ -12,6 +12,7 @@ public class SpiralBulletVertical : MonoBehaviour
     float mAmplitude = 0.0f;
 
     Transform mMyTransform;
+    public Vector2 mStartingPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,7 @@ public class SpiralBulletVertical : MonoBehaviour
         float y = Mathf.Cos(mAngle) * mAmplitude;
         float x = Mathf.Sin(mAngle) * mAmplitude;
 
-        mMyTransform.position = new Vector2(x, y);
+        mMyTransform.position = mStartingPosition + new Vector2(x, y);
         mAngle += Time.deltaTime * mAngleGrowth;
         mAmplitude += Time.deltaTime * mAmplitudeGrowth;
     }
