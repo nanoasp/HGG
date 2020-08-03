@@ -60,6 +60,8 @@ public class Aniki : MonoBehaviour
         {
             mHp -= 1;
             mHp = mHp < 0 ? 0 : mHp;
+
+            Destroy(col.gameObject);
         }
     }
 }
