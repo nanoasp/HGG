@@ -11,11 +11,13 @@ public class BasicAi : MonoBehaviour
     public Vector2 velocity;
     public float speed;
     public float rotation;
+    public bool flip;
     public float flipTimer;
     public bool jump;
     public float jumpVelocity;
     public bool spin;
     public float spinVelocity;
+    public bool decelerate; 
 
     float flipTime;
     // Start is called before the first frame update
@@ -23,21 +25,27 @@ public class BasicAi : MonoBehaviour
     {
         
         hp = startHp;
-        flipTime = flipTimer;
+
+        if (flip)
+            flipTime = flipTimer;
 
         if (jump)
             velocity.y += jumpVelocity;
 
-        Invoke("Destroy", 20.0f);
+        Invoke("Destroy", 30.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (flipTime < 0.0f)
+
+        if (flip)
         {
-            velocity.y *= -1.0f;
-            flipTime = flipTimer;
+            if (flipTime < 0.0f)
+            {
+                velocity.y *= -1.0f;
+                flipTime = flipTimer;
+            }
         }
 
         if (hp < 0)
@@ -50,6 +58,11 @@ public class BasicAi : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, rotation);
             rotation += spinVelocity;
+        }
+
+        if (decelerate)
+        {
+            velocity *= 0.999f;
         }
 
         transform.position += new Vector3(velocity.x, velocity.y) * speed * Time.deltaTime;

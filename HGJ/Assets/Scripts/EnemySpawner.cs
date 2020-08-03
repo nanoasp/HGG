@@ -12,10 +12,13 @@ public class EnemySpawner : MonoBehaviour
     public int enemyHp;
     public Vector2 enemyVelocity;
     public int numberOfEnemies;
+    public bool enemyFlip;
+    public float enemyFlipTimer;
     public bool enemyJump;
     public float enemyJumpVelocity;
     public bool enemySpin;
     public float enemySpinVelocity;
+    public bool enemyDecelerate;
 
     void Start()
     {
@@ -52,7 +55,10 @@ public class EnemySpawner : MonoBehaviour
         b.jumpVelocity = enemyJumpVelocity;
         b.spin = enemySpin;
         b.spinVelocity = enemySpinVelocity;
-        
+        b.flip = enemyFlip;
+        b.flipTimer = enemyFlipTimer;
+        b.decelerate = enemyDecelerate;
+
         return spawnedEnemies;
     }
 }
