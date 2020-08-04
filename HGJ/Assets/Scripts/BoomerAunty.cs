@@ -290,10 +290,8 @@ public class P1DASHFRONTState : IState
     public void Enter()
     {
         owner.currentHealth = 100;
-        isDashing = false;
         currtimer = 0.0f;
         playercollectionpos.Add(owner.player.transform.position.y);
-        reseting = false;
         dashSpeed = 18;
 
         currstate = state.reseting;
