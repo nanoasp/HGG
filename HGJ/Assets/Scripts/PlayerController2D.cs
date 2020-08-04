@@ -187,8 +187,8 @@ public class BeamAttackState : IState
     {
         //Debug.Log("updating player attack state");
 
-        if (owner.mBeamCounter < 30.0f)
-            delay = 1.0f;
+        if (owner.mBeamCounter < 20.0f)
+            delay = 0.5f;
         else
             delay = 0.0f;
 
@@ -362,26 +362,8 @@ public class PlayerController2D : MonoBehaviour
             }
         }
 
-        //sprite flipping
-        //{
-        //    if (mDirection != 0)
-        //    {
-        //        //going right but not facing right
-        //        if (mDirection > 0 && !mFacingRight)
-        //        {
-        //            mFacingRight = true;
-        //            mTransform.localScale = new Vector3(Mathf.Abs(mTransform.localScale.x), mTransform.localScale.y, mTransform.localScale.z);
-        //        }
-        //        else if (mDirection < 0 && mFacingRight)//going left but not facing left
-        //        {
-        //            mFacingRight = false;
-        //            mTransform.localScale = new Vector3(-Mathf.Abs(mTransform.localScale.x), mTransform.localScale.y, mTransform.localScale.z);
-        //        }
-        //    }
-        //}
-
         //check for attack
-        if (mBeamCounter > 0.0f && (mBeamCounter > mBeamThreshold || (PLAYER_STATES)mStateMachine.GetStateNumber() == PLAYER_STATES.BEAM_ATTACK) && Input.GetKey(KeyCode.Space))
+        if (mBeamCounter > 0.0f && (mBeamCounter >= mBeamThreshold || (PLAYER_STATES)mStateMachine.GetStateNumber() == PLAYER_STATES.BEAM_ATTACK) && Input.GetKey(KeyCode.Space))
         {
             mStateMachine.ChangeState((int)PLAYER_STATES.BEAM_ATTACK);
             //mAnimator.SetInteger("state", (int)PLAYER_STATES.BEAM_ATTACK);
