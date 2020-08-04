@@ -147,7 +147,7 @@ public class BeamAttackState : IState
     Transform mAnikiTwo;
 
     float timer = 0.3f;
-    float delay = 0.03f;
+    float delay = 0.00f;
 
     public BeamAttackState(PlayerController2D owner)
     {
@@ -160,11 +160,11 @@ public class BeamAttackState : IState
     {
         //Debug.Log("entering player attack state");
         Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
-        Vector2 velocity = new Vector2(Owner_right.x, Owner_right.y) * Mathf.Lerp(0.0f, owner.mBeamProjectileSpeed, owner.mBeamCounter / owner.mBeamMax);
-        float size = 10.0f * (owner.mBeamCounter / owner.mBeamMax);
+        Vector2 velocity = new Vector2(Owner_right.x, Owner_right.y) * Mathf.SmoothStep(0.0f, owner.mBeamProjectileSpeed, owner.mBeamCounter / owner.mBeamMax);
+        float size = 5.0f * (owner.mBeamCounter / owner.mBeamMax);
         float offset = owner.mAnikiState == PlayerController2D.ANIKI_STATES.FRONTAL ? 1.0f : 1.5f;
 
-        size = size > 2.5f ? size : 2.5f;
+        size = size > 2.0f ? size : 2.0f;
 
         AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
         AttackCollider.transform.position = mAnikiOne.transform.position + Owner_right * offset;
@@ -188,14 +188,14 @@ public class BeamAttackState : IState
     {
         //Debug.Log("updating player attack state");
 
-        timer += Time.deltaTime;
-        
-        if (timer > delay)
-        {
-            Spawn();
-            timer = 0.0f;
-        }
-        //Spawn();
+        //timer += Time.deltaTime;
+        //
+        //if (timer > delay)
+        //{
+        //    Spawn();
+        //    timer = 0.0f;
+        //}
+        Spawn();
     }
 
     public void Exit()
@@ -205,108 +205,6 @@ public class BeamAttackState : IState
 
     }
 }
-
-//public class WhirlwindState : IState
-//{
-//    PlayerController2D owner;
-//    GameObject AttackCollider;
-//
-//    public WhirlwindState(PlayerController2D owner)
-//    {
-//        this.owner = owner;
-//
-//    }
-//
-//    public void Enter()
-//    {
-//        //Debug.Log("entering player attack state");
-//        Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
-//
-//        AttackCollider = PlayerController2D.Instantiate(owner.WhirlwindPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
-//        AttackCollider.transform.parent = owner.transform;
-//        AttackCollider.transform.localPosition = new Vector3(0.0f, 0.25f, 0.0f);
-//
-//        owner.isWhirlwind = true;
-//        owner.WhirlwindVFX.SetActive(true);
-//        //owner.playSpin();
-//
-//    }
-//
-//    public void Execute()
-//    {
-//        //Debug.Log("updating player attack state");
-//        owner.mWhirlwindCounter -= Time.deltaTime;
-//        owner.mWhirlwindCounter = Mathf.Max(owner.mWhirlwindCounter, 0.0f);
-//    }
-//
-//    public void Exit()
-//    {
-//        //Debug.Log("exiting player attack state");
-//        PlayerController2D.Destroy(AttackCollider, 0.0f);
-//        owner.isWhirlwind = false;
-//        owner.WhirlwindVFX.SetActive(false);
-//        //owner.stopSpin();
-//
-//    }
-//}
-//
-//public class ThrowState : IState
-//{
-//    PlayerController2D owner;
-//    GameObject AttackCollider;
-//
-//    float offset = 1.5f;
-//    float timer = 0.6f;
-//    float delay = 0.5f;
-//
-//    public ThrowState(PlayerController2D owner)
-//    {
-//        this.owner = owner;
-//    }
-//
-//    void Spawn()
-//    {
-//        //Debug.Log("entering player attack state");
-//        Vector3 Owner_right = owner.mFacingRight ? new Vector3(1.0f, 0.0f, 0.0f) : new Vector3(-1.0f, 0.0f, 0.0f);
-//
-//        if (owner.mFacingRight)
-//            AttackCollider = PlayerController2D.Instantiate(owner.RightProjectile, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, -90.0f)) as GameObject;
-//        else
-//            AttackCollider = PlayerController2D.Instantiate(owner.LeftProjectile, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 90.0f)) as GameObject;
-//
-//        AttackCollider.transform.position = owner.transform.position + Owner_right * offset;
-//        AttackCollider.GetComponent<Rigidbody2D>().velocity = new Vector2 (Owner_right.x, Owner_right.y) * owner.mProjectileSpeed;
-//        
-//        owner.isThrowing = true;
-//        //owner.playShoot();
-//
-//    }
-//    public void Enter()
-//    {
-//
-//    }
-//
-//    public void Execute()
-//    {
-//        //Debug.Log("updating player attack state");
-//
-//        timer += Time.deltaTime;
-//
-//        if (timer > delay)
-//        {
-//            Spawn();
-//            timer = 0.0f;
-//        }
-//    }
-//
-//    public void Exit()
-//    {
-//        //Debug.Log("exiting player attack state");
-//        owner.isThrowing = false;
-//        //owner.stopShoot();
-//
-//    }
-//}
 
 public class PlayerController2D : MonoBehaviour
 {
