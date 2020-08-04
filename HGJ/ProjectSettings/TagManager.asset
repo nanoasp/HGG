@@ -6,9 +6,6 @@ TagManager:
   tags:
   - PlayerAttack
   - EnemyAttack
-  - BackgroundDeleteBlock
-  - BackgroundSpawnBlock
-  - BackgroundObject
   layers:
   - Default
   - TransparentFX
@@ -43,15 +40,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: background
-    uniqueID: 1578810833
-    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: middleground
-    uniqueID: 193537499
-    locked: 0
-  - name: foreground
-    uniqueID: 271169303
     locked: 0
