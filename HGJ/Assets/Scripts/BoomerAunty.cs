@@ -51,8 +51,8 @@ public class BoomerAunty : MonoBehaviour
         mStateMachine.RegisterState(new P2ARCBOMBARDMENTState(this), (int)BOSSATTACKS.P2ARCBOMBARDMENT);
         //mStateMachine.RegisterState(new P2SPINState(this), (int)BOSSATTACKS.P2SPIN); // bounce
         //mStateMachine.RegisterState(new P3SHOOTFRONTState(this), (int)BOSSATTACKS.P3SHOOTFRONT);
-        //mStateMachine.RegisterState(new P3somethingState(this), (int)BOSSATTACKS.P3something); // bounce spawn trolley
-        //mStateMachine.RegisterState(new P3TROLLEYBOMBARDMENTState(this), (int)BOSSATTACKS.P3TROLLEYBOMBARDMENT); fire trolley out and they bounce
+        //mStateMachine.RegisterState(new P3somethingState(this), (int)BOSSATTACKS.P3something); // bounce spawn trolley //  cancled
+        //mStateMachine.RegisterState(new P3TROLLEYBOMBARDMENTState(this), (int)BOSSATTACKS.P3TROLLEYBOMBARDMENT); fire trolley out and they bounce // cancled
         //mStateMachine.RegisterState(new DEADState(this), (int)BOSSATTACKS.DEAD);
 
         mStateMachine.ChangeState((int)BOSSATTACKS.IDLE);
@@ -90,7 +90,7 @@ public class BAIdleState : IState
     public void Execute()
     {
         currtimer += Time.deltaTime;
-        if (currtimer > 1.2f)
+        if (currtimer > 1.2f) //  change to dialogue finish
         {
             owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.P1SHOOTFRONT);
         }
@@ -105,7 +105,7 @@ public class P1SHOOTFRONTState : IState
     BoomerAunty owner;
 
     float delayBeforeShooting = 3.8f;
-    float shotDelay = 0.8f;
+    float shotDelay = 1.2f;
     bool isShooting;
     float currtimer = 0.0f;
     float aligntimer = 0.0f;
@@ -113,10 +113,14 @@ public class P1SHOOTFRONTState : IState
     float phaseTimer = 0.0f;
     float moveTimer = 0.0f;
     List<float> playercollectionpos = new List<float>();
-    float trackingTimer;
+    float trackingTimer;    
     Camera camera;
     bool moving;
     Vector3 newpos;
+    // numeric spring for recoil
+    float spriPos;
+    float spriVel;
+    float recoilTargetpos;
     public P1SHOOTFRONTState(BoomerAunty owner)
     {
         this.owner = owner;
@@ -143,13 +147,13 @@ public class P1SHOOTFRONTState : IState
         }
         else if (isShooting && currtimer > shotDelay)
         {
-            // update numeric spring
+
             if (shotCount < 3)
             {
                 // shoots a bullet
                 owner.myTrolley.GetComponent<Trolleybehaviour>().ShootBullet();
                 // TODO :: add recoil
-
+                spriVel = 20.0f;
                 shotCount++;
                 currtimer = 0;
             }
@@ -158,7 +162,13 @@ public class P1SHOOTFRONTState : IState
             }
 
         }
-
+        if (isShooting && shotCount < 3 && currtimer <1.0f) {
+            // update numeric spring
+            Vector3 currpos = owner.myTrolley.transform.position;
+            spriPos = currpos.x;
+            NumbericSpring.spring(ref spriPos, ref spriVel, recoilTargetpos, 0.20f, 12, Time.deltaTime);
+            owner.myTrolley.transform.position = new Vector3(spriPos, currpos.y, currpos.z);
+        }
 
         // move closer to player
         moveTimer += Time.deltaTime;
@@ -194,7 +204,7 @@ public class P1SHOOTFRONTState : IState
             trackingTimer = 0;
         }
         phaseTimer += Time.deltaTime;
-        if (owner.currentHealth < 0 || phaseTimer > 60.0f) {
+        if (owner.currentHealth < 0 || phaseTimer > 150.0f) {
 
             moveTrolleytoDefultPos();
             if (!isShooting && currtimer==0) { 
@@ -217,10 +227,14 @@ public class P1SHOOTFRONTState : IState
             isShooting = true;
             currtimer = 0.0f;
             aligntimer = 0.0f;
-        } 
+            recoilTargetpos = owner.transform.position.x;
+            spriVel = 0.0f;
+
+        }
     }
     void moveTrolleytoDefultPos()
     {
+
         Vector3 tepos = owner.transform.position + (Vector3.left*3);
         Vector3 tspos = owner.transform.position + (Vector3.up * 4);
         aligntimer += Time.deltaTime;
@@ -250,7 +264,7 @@ public class P1DASHFRONTState : IState
 {
     BoomerAunty owner;
 
-    float delayBeforeDashing = 4.8f;
+    float delayBeforeDashing = 2.8f;
     bool isDashing;
     float currtimer = 0.0f;
     float phaseTimer = 0.0f;
@@ -262,6 +276,14 @@ public class P1DASHFRONTState : IState
     Vector3 newpos;
 
     float dashSpeed;
+
+    enum state { 
+        preDash,
+        Dash,
+        reseting
+    
+    }
+    state currstate;
     public P1DASHFRONTState(BoomerAunty owner)
     {
         this.owner = owner;
@@ -275,18 +297,77 @@ public class P1DASHFRONTState : IState
         playercollectionpos.Add(owner.player.transform.position.y);
         reseting = false;
         dashSpeed = 18;
+
+        currstate = state.reseting;
     }
 
     public void Execute()
     {
         currtimer += Time.deltaTime;
+        phaseTimer += Time.deltaTime;
         // move closer to player
         moveTimer += Time.deltaTime;
-        if (!isDashing && currtimer < delayBeforeDashing && reseting == false)
+
+
+        if (currstate == state.reseting)
+        {
+            moveTrolleytoDefultPos();
+            owner.transform.position += (newpos - owner.transform.position) * Time.deltaTime;
+            playercollectionpos.Clear();
+            playercollectionpos.Add(owner.player.transform.position.y);
+
+        }
+        else if (currstate == state.preDash)
+        {
+            float ypos = 0;
+            for (var i = 0; i < playercollectionpos.Count; i++)
+            {
+                ypos += playercollectionpos[i];
+            }
+            ypos /= playercollectionpos.Count;
+            Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.55f, 0.95f), 0, 0));// + new Vector3(0,ypos/2,0);
+
+            newpos = new Vector3(p.x, ypos, 0);
+
+            moveTrolleytoFirePos();
+
+        }
+        else if (currstate == state.Dash)
+        {
+            // dash forwards
+            owner.transform.position += Vector3.left * dashSpeed * Time.deltaTime;
+            owner.myTrolley.transform.position = owner.transform.position + (Vector3.left * 3);
+            Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.1f, 0), 0, 0));// + new Vector3(0,ypos/2,0);
+
+            if (owner.transform.position.x < p.x)
+            {
+                currstate = state.reseting;
+            }
+
+        }
+
+
+
+
+
+
+        /*
+        if (!isDashing && reseting == false)
         {
             // starts shooting process
             //isShooting = true;
-            moveTrolleytoFirePos();
+
+
+            if (currtimer < delayBeforeDashing)
+            {
+                moveTrolleytoFirePos();
+
+            }
+            else { 
+                isDashing = true;
+                currtimer = 0;
+            }
+
         }
         else if (isDashing)
         {
@@ -301,8 +382,6 @@ public class P1DASHFRONTState : IState
                 reseting = true;
             }
         }
-
-
         else if (moveTimer > 1.2f && reseting == false)
         {
 
@@ -317,7 +396,7 @@ public class P1DASHFRONTState : IState
             newpos = new Vector3(p.x, ypos, 0);
 
         }
-        else if (!isDashing && reseting == false)
+        else if (!isDashing && reseting == true)
         {
             moveTrolleytoDefultPos();
             owner.transform.position += (newpos - owner.transform.position) * Time.deltaTime;
@@ -334,7 +413,7 @@ public class P1DASHFRONTState : IState
             trackingTimer = 0;
         }
 
-        if (owner.currentHealth < 0 || phaseTimer > 60.0f)
+        if (owner.currentHealth < 0 || phaseTimer > 150.0f)
         {
             moveTrolleytoDefultPos();
             if (isDashing && currtimer == 0 && reseting == false)
@@ -342,6 +421,8 @@ public class P1DASHFRONTState : IState
                 owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.P2ARCBOMBARDMENT);
             }
         }
+
+        */
     }
 
     void moveTrolleytoFirePos()
@@ -351,9 +432,8 @@ public class P1DASHFRONTState : IState
 
         if (owner.myTrolley.transform.rotation.eulerAngles.z < 0.05f && owner.myTrolley.transform.rotation.eulerAngles.z > -0.05f)
         {
-            isDashing = true;
-            currtimer = 0.0f;
-
+            isDashing = true; //  change state
+            currtimer = 0;
         }
     }
     void moveTrolleytoDefultPos()
@@ -395,6 +475,10 @@ public class P2ARCBOMBARDMENTState : IState
     Camera camera;
     bool moving;
     Vector3 newpos;
+    // numeric spring for recoil
+    float spriPos;
+    float spriVel;
+    float recoilTargetpos;
     public P2ARCBOMBARDMENTState(BoomerAunty owner)
     {
         this.owner = owner;
@@ -422,21 +506,30 @@ public class P2ARCBOMBARDMENTState : IState
         }
         else if (isShooting && currtimer > shotDelay)
         {
-            // update numeric spring
 
+            if (shotCount < 3)
+            {
                 // shoots a bullet
-                owner.myTrolley.GetComponent<Trolleybehaviour>().ShootBullet();// change to shoot arc bullet
+                owner.myTrolley.GetComponent<Trolleybehaviour>().ShootBullet(); //  change to arc bullet
                 // TODO :: add recoil
-
+                spriVel = 20.0f;
                 shotCount++;
-            if (currtimer > shotDelay*2) { 
+                currtimer = 0;
+            }
+            else
+            {
                 moveTrolleytoDefultPos();
-
             }
 
-
         }
-
+        if (isShooting && shotCount < 3 && currtimer < 1.0f)
+        {
+            // update numeric spring
+            Vector3 currpos = owner.myTrolley.transform.position;
+            spriPos = currpos.x;
+            NumbericSpring.spring(ref spriPos, ref spriVel, recoilTargetpos, 0.20f, 12, Time.deltaTime);
+            owner.myTrolley.transform.position = new Vector3(spriPos, currpos.y, currpos.z);
+        }
 
         // move closer to player
         moveTimer += Time.deltaTime;
@@ -476,13 +569,13 @@ public class P2ARCBOMBARDMENTState : IState
             trackingTimer = 0;
         }
         phaseTimer += Time.deltaTime;
-        if (owner.currentHealth < 0 || phaseTimer > 60.0f)
+        if (owner.currentHealth < 0 || phaseTimer > 150.0f)
         {
 
             moveTrolleytoDefultPos();
             if (!isShooting && currtimer == 0)
             {
-                owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.P2SPIN);
+                owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.P1DASHFRONT);
             }
         }
     }
@@ -503,10 +596,14 @@ public class P2ARCBOMBARDMENTState : IState
             isShooting = true;
             currtimer = 0.0f;
             aligntimer = 0.0f;
+            recoilTargetpos = owner.transform.position.x;
+            spriVel = 0.0f;
+
         }
     }
     void moveTrolleytoDefultPos()
     {
+
         Vector3 tepos = owner.transform.position + (Vector3.left * 3);
         Vector3 tspos = owner.transform.position + (Vector3.up * 4);
         aligntimer += Time.deltaTime;
