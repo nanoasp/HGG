@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2692133104055219037}
   - component: {fileID: 9010624836191200660}
   - component: {fileID: 7867004593728924566}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: AnikiTwo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,6 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnikiMarker: {fileID: 0}
   mSpeed: 2
+  mHp: 10
+  mResetInterval: 5
 --- !u!50 &9010624836191200660
 Rigidbody2D:
   serializedVersion: 4

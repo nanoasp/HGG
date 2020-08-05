@@ -166,15 +166,23 @@ public class BeamAttackState : IState
 
         size = size > 1.5f ? size : 1.5f;
 
-        AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
-        AttackCollider.transform.position = mAnikiOne.transform.position + Owner_right * offset;
-        AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
-        AttackCollider.GetComponent<Transform>().localScale = new Vector3(size, size, 5.0f);
+        if (owner.mAnikiOne.mHp != 0)
+        {
+            AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
+            AttackCollider.transform.position = mAnikiOne.transform.position + Owner_right * offset;
+            AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
+            AttackCollider.GetComponent<Transform>().localScale = new Vector3(size, size, 5.0f);
+        }
 
-        AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
-        AttackCollider.transform.position = mAnikiTwo.transform.position + Owner_right * offset;
-        AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
-        AttackCollider.GetComponent<Transform>().localScale = new Vector3(size, size, 5.0f);
+        if (owner.mAnikiTwo.mHp != 0)
+        {
+            AttackCollider = PlayerController2D.Instantiate(owner.WaterProjectilePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0)) as GameObject;
+            AttackCollider.transform.position = mAnikiTwo.transform.position + Owner_right * offset;
+            AttackCollider.GetComponent<Rigidbody2D>().velocity = velocity;
+            AttackCollider.GetComponent<Transform>().localScale = new Vector3(size, size, 5.0f);
+            
+        }
+        
         //owner.playShoot();
     }
 
@@ -187,18 +195,18 @@ public class BeamAttackState : IState
     {
         //Debug.Log("updating player attack state");
 
-        if (owner.mBeamCounter < 20.0f)
-            delay = 0.5f;
-        else
-            delay = 0.0f;
-
-        timer += Time.deltaTime;
-        
-        if (timer > delay)
-        {
-            Spawn();
-            timer = 0.0f;
-        }
+        //if (owner.mBeamCounter < 20.0f)
+        //    delay = 0.5f;
+        //else
+        //    delay = 0.0f;
+        //
+        //timer += Time.deltaTime;
+        //
+        //if (timer > delay)
+        //{
+        //    Spawn();
+        //    timer = 0.0f;
+        //}
 
         Spawn();
     }
@@ -241,8 +249,8 @@ public class PlayerController2D : MonoBehaviour
     public GameObject mAnikiOne_obj;
     public GameObject mAnikiTwo_obj;
 
-    Aniki mAnikiOne;
-    Aniki mAnikiTwo;
+    public Aniki mAnikiOne;
+    public Aniki mAnikiTwo;
 
     public float mHorizontalMoveSpeed = 5.0f;
     public float mVerticalMoveSpeed = 5.0f;
@@ -405,10 +413,13 @@ public class PlayerController2D : MonoBehaviour
         switch ((PLAYER_STATES)(mStateMachine.GetStateNumber()))
         {
             case PLAYER_STATES.BEAM_ATTACK:
-                mBeamCounter -= mBeamDepletionRate * Time.deltaTime;
+                if (mAnikiOne.mHp != 0 || mAnikiTwo.mHp != 0)
+                {
+                    mBeamCounter -= mBeamDepletionRate * Time.deltaTime;
 
-                if (mBeamCounter < 0.0f)
-                    mBeamCounter = 0.0f;
+                    if (mBeamCounter < 0.0f)
+                        mBeamCounter = 0.0f;
+                }
                 break;
             case PLAYER_STATES.CHARGE:
                 mBeamCounter += mBeamChargeRate * Time.deltaTime;
@@ -454,6 +465,14 @@ public class PlayerController2D : MonoBehaviour
         }
 
         mRB2D.velocity = new Vector2((mHorizontal) * movespd_x, (mVertical) * movespd_y);
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "EnemyAttack" || col.gameObject.tag == "Enemy")
+        {
+            
+        }
     }
 
     //public void playRoll()

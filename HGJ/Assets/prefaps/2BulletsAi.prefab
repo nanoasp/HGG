@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1797550257}
   - component: {fileID: 1797550256}
   m_Layer: 0
-  m_Name: BasicAi
+  m_Name: 2BulletsAi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,15 +48,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHp: 5
-  dropResource: {fileID: 0}
+  dropResource: {fileID: 9214372419043996555, guid: 1e392bbe650abea4db6251511310783d,
+    type: 3}
   velocity: {x: 0, y: 0}
   speed: 0
   rotation: 0
+  flip: 0
   flipTimer: 0
   jump: 0
   jumpVelocity: 0
   spin: 0
   spinVelocity: 0
+  decelerate: 0
 --- !u!212 &579089305332814518
 SpriteRenderer:
   m_ObjectHideFlags: 0

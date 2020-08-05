@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8209858689604722308}
   - component: {fileID: 8783726112936270820}
   - component: {fileID: 8209858689604722309}
-  m_Layer: 0
+  - component: {fileID: 5015008481126344845}
+  m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,6 +107,8 @@ MonoBehaviour:
   mMarkerTwo_obj: {fileID: 8783726113084298206}
   mAnikiOne_obj: {fileID: 0}
   mAnikiTwo_obj: {fileID: 0}
+  mAnikiOne: {fileID: 0}
+  mAnikiTwo: {fileID: 0}
   mHorizontalMoveSpeed: 5
   mVerticalMoveSpeed: 5
   mHorizontalAttackMoveSpeed: 5
@@ -132,19 +135,45 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8209858689604722311}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &5015008481126344845
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8209858689604722311}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.16}
+  m_EdgeRadius: 0
 --- !u!1 &8783726113084298206
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +185,7 @@ GameObject:
   - component: {fileID: 8783726113084298207}
   - component: {fileID: 8783726113084298204}
   - component: {fileID: 8783726113084298205}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MarkerTwo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +281,7 @@ GameObject:
   - component: {fileID: 8783726113635895011}
   - component: {fileID: 8783726113635895008}
   - component: {fileID: 8783726113635895009}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MarkerOne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
