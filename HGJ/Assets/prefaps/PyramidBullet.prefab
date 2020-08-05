@@ -481,5 +481,5 @@ MonoBehaviour:
   mSpawner3: {fileID: 4582317404024732062}
   mSpawner4: {fileID: 4582317405355222951}
   mIterations: 3
-  mProjectileSpeed: 5
+  mProjectileSpeed: 4
   mSpawnInterval: 0.5

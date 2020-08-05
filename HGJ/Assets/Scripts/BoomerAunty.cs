@@ -292,7 +292,7 @@ public class P1DASHFRONTState : IState
         owner.currentHealth = 100;
         currtimer = 0.0f;
         playercollectionpos.Add(owner.player.transform.position.y);
-        dashSpeed = 18;
+        dashSpeed = 18; 
 
         currstate = state.reseting;
     }

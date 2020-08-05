@@ -188,6 +188,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8783726112936270820, guid: c2a2b9210d9c5b342a668ac1778e6695,
+        type: 3}
+      propertyPath: mAnikiOne_obj
+      value: 
+      objectReference: {fileID: 1018457117971066122, guid: f918972593547b549a94fe8ba902bed2,
+        type: 3}
+    - target: {fileID: 8783726112936270820, guid: c2a2b9210d9c5b342a668ac1778e6695,
+        type: 3}
+      propertyPath: mAnikiTwo_obj
+      value: 
+      objectReference: {fileID: 2692133104055219038, guid: 5ece05e2b7e2c68498d50218547c8a7c,
+        type: 3}
+    - target: {fileID: 8783726112936270820, guid: c2a2b9210d9c5b342a668ac1778e6695,
+        type: 3}
+      propertyPath: mMainCamera
+      value: 
+      objectReference: {fileID: 519420028}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2a2b9210d9c5b342a668ac1778e6695, type: 3}
 --- !u!1 &519420028

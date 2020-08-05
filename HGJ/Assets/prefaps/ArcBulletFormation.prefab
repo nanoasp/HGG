@@ -96,6 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mBulletPrefab: {fileID: 2857438522780886410, guid: 82659cf3b1575b34d9b200154ed2d49f,
     type: 3}
-  mInitialSpeed: {x: 1, y: 5}
+  mInitialSpeed: {x: 1.5, y: 5}
   mGravityScale: 1
-  mSpawnInterval: 0.5
+  mSpawnInterval: 0.8

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ArcBulletSpawner : MonoBehaviour
 {
     public GameObject mBulletPrefab;
+    public GameObject mBulletPrefab2;
     public Vector2 mInitialSpeed;
     public float mGravityScale;
 
@@ -31,7 +32,21 @@ public class ArcBulletSpawner : MonoBehaviour
             mSpawnCounter = 0.0f;
 
         GameObject bullet;
-        bullet = ArcBulletSpawner.Instantiate(mBulletPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
+        if (mInitialSpeed.y > 1)
+        {
+            mInitialSpeed.y--;
+        }
+        else {
+            mInitialSpeed.y = 5;
+
+        }
+        if (mInitialSpeed.y %2 ==0) {
+            bullet = ArcBulletSpawner.Instantiate(mBulletPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
+
+        }else 
+        { 
+        bullet = ArcBulletSpawner.Instantiate(mBulletPrefab2, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f)) as GameObject;
+        }
         bullet.transform.position = mMyTransform.position;
         ArcBullet ab = bullet.GetComponent<ArcBullet>();
         ab.mVelocity = mInitialSpeed;
