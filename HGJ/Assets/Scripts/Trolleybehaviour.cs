@@ -6,6 +6,8 @@ public class Trolleybehaviour : MonoBehaviour
 {
 
     public List<GameObject> myBullets;
+    public GameObject priBullets;
+    public GameObject arcBullets;
 
     public List<GameObject> myBulletsVariations;
     int variationFlag;
@@ -30,6 +32,34 @@ public class Trolleybehaviour : MonoBehaviour
         myBullets.Add(newbullet);
         variationFlag++;
         if (variationFlag >= myBulletsVariations.Count) {
+            variationFlag = 0;
+        }
+    }
+    public void ShootPri()
+    {
+        GameObject newbullet = Instantiate(priBullets);
+        newbullet.transform.position = transform.position;
+        //set speed maybe?
+        //newbullet.GetComponent<>().speed = somespeed;
+
+        myBullets.Add(newbullet);
+        variationFlag++;
+        if (variationFlag >= myBulletsVariations.Count)
+        {
+            variationFlag = 0;
+        }
+    }
+    public void ShootArc()
+    {
+        GameObject newbullet = Instantiate(arcBullets);
+        newbullet.transform.position = transform.position;
+        //set speed maybe?
+        //newbullet.GetComponent<>().speed = somespeed;
+
+        myBullets.Add(newbullet);
+        variationFlag++;
+        if (variationFlag >= myBulletsVariations.Count)
+        {
             variationFlag = 0;
         }
     }

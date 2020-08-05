@@ -105,7 +105,7 @@ public class P1SHOOTFRONTState : IState
     BoomerAunty owner;
 
     float delayBeforeShooting = 3.8f;
-    float shotDelay = 1.2f;
+    float shotDelay = 4.2f;
     bool isShooting;
     float currtimer = 0.0f;
     float aligntimer = 0.0f;
@@ -151,7 +151,7 @@ public class P1SHOOTFRONTState : IState
             if (shotCount < 3)
             {
                 // shoots a bullet
-                owner.myTrolley.GetComponent<Trolleybehaviour>().ShootBullet();
+                owner.myTrolley.GetComponent<Trolleybehaviour>().ShootPri();
                 // TODO :: add recoil
                 spriVel = 20.0f;
                 shotCount++;
@@ -466,7 +466,7 @@ public class P2ARCBOMBARDMENTState : IState
     BoomerAunty owner;
 
     float delayBeforeShooting = 3.8f;
-    float shotDelay = 6.2f;
+    float shotDelay = 4.2f;
     bool isShooting;
     float currtimer = 0.0f;
     float aligntimer = 0.0f;
@@ -507,8 +507,9 @@ public class P2ARCBOMBARDMENTState : IState
         {
             if (currtimer > shotDelay) { 
                 // shoots a bullet
-                owner.myTrolley.GetComponent<Trolleybehaviour>().ShootBullet(); //  change to arc bullet
+                owner.myTrolley.GetComponent<Trolleybehaviour>().ShootArc(); //  change to arc bullet
                 currtimer = 0;
+                isShooting = false;
             }
 
 

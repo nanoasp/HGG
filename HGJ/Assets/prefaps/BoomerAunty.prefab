@@ -100,7 +100,9 @@ MonoBehaviour:
   player: {fileID: 0}
   bullet1Prefab: {fileID: 9214372419043996555, guid: 1e392bbe650abea4db6251511310783d,
     type: 3}
-  bullet2Prefab: {fileID: 0}
-  bullet3Prefab: {fileID: 0}
+  bullet2Prefab: {fileID: 6333275957712127707, guid: a2836f7985e620144aca29131445f716,
+    type: 3}
+  bullet3Prefab: {fileID: 424456266493111320, guid: 0f1e254f1e557bf40a5cb14bd4c9ce00,
+    type: 3}
   currentHealth: 1
   invul: 0

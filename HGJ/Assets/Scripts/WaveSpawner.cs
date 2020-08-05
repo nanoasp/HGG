@@ -41,6 +41,7 @@ public class WaveSpawner : MonoBehaviour
         StartCoroutine(SpawnWave(enemyResource[1], 65.0f, new Vector2(transform.position.x, Constants.Y_TOP)));
         StartCoroutine(SpawnWave(enemyResource[3], 70.0f, new Vector2(Constants.X_RIGHT_M, Constants.Y_HELL)));
         StartCoroutine(SpawnWave(enemyResource[3], 70.0f, new Vector2(Constants.X_RIGHT_R, Constants.Y_HELL)));
+        StartCoroutine(SpawnWave(enemyResource[4], 78.0f, new Vector2(Constants.X_RIGHT_R, Constants.Y_HELL)));
 
     }
 
