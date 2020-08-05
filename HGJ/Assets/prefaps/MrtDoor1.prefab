@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590655554989485}
   - component: {fileID: 1001590655554989484}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,8 +67,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1aff3cdec5dbb07498320add7bbc4ba4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590655592674039}
   - component: {fileID: 1001590655592674038}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TrainMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,8 +148,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 261acf6e8b248444a891ee1b5a326db4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -172,7 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590655648510816}
   - component: {fileID: 1001590655648510823}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Glass (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,8 +229,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f68bc6871485c614bb0dbfcceebf8e49, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -253,7 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590655769546509}
   - component: {fileID: 1001590655769546508}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Chairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,8 +310,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f7939d1d96f283f4caa9fdff6d359f7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -334,7 +334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590655831753380}
   - component: {fileID: 1001590655831753387}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UpperGreenSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,8 +391,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4aaf567b30796ef42abe7a0792b399b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -415,7 +415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590656080071125}
   - component: {fileID: 1001590656080071124}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,8 +472,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f68bc6871485c614bb0dbfcceebf8e49, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -496,7 +496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590656122316467}
   - component: {fileID: 1001590656122316466}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Chairs (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,8 +553,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f7939d1d96f283f4caa9fdff6d359f7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -577,7 +577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590656475449147}
   - component: {fileID: 1001590656475449146}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WallBarVertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -634,8 +634,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b96159cc244c72a458ba8221dce64275, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -658,7 +658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590656496594961}
   - component: {fileID: 1001590656496594960}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WallGreyCylinderThing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -715,8 +715,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ac376ee572f79d84f95ae5360ccf585c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -739,7 +739,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590656541836350}
   - component: {fileID: 1001590656541836349}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WindowsDouble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,8 +796,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5b95968e2ce695c4f86cc08a081d3809, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -820,7 +820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590656570981851}
   - component: {fileID: 1001590656570981850}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WallBarVertical (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -877,8 +877,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b96159cc244c72a458ba8221dce64275, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -901,7 +901,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1001590656928215767}
   - component: {fileID: 1001590656928215766}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WindowsDouble (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -958,8 +958,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1578810833
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5b95968e2ce695c4f86cc08a081d3809, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -983,7 +983,7 @@ GameObject:
   - component: {fileID: 1001590657558654446}
   - component: {fileID: -3690693060534291151}
   - component: {fileID: 3094063201087214788}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MrtDoor1
   m_TagString: BackgroundObject
   m_Icon: {fileID: 0}
@@ -998,7 +998,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1001590657558654447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.93, z: -5.04}
+  m_LocalPosition: {x: 0, y: 0.93, z: 97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1001590655554989485}
@@ -1076,7 +1076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5611589029895435367}
   - component: {fileID: 6424729810649785830}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CeilingHandles (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1158,7 +1158,7 @@ GameObject:
   - component: {fileID: 736261657153352394}
   - component: {fileID: 3882473344358455560}
   - component: {fileID: 7249791222634403636}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: triggerblock
   m_TagString: BackgroundSpawnBlock
   m_Icon: {fileID: 0}
@@ -1236,7 +1236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5350471613465244978}
   - component: {fileID: 8262217600756986573}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CeilingHandles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
