@@ -9,6 +9,7 @@ public class ArcBullet : MonoBehaviour
     public float mGravity;
 
     Rigidbody2D mRB;
+    float hp;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,23 @@ public class ArcBullet : MonoBehaviour
     void Update()
     {
         mVelocity.y -= mGravity * Time.deltaTime;
-
+        hp = 5;
         mRB.velocity = mVelocity;
+        if (hp <= 0) { 
+        
+        }
+    }
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "PlayerWater")
+        {
+            col.gameObject.GetComponent<waterdropkillscript>().commitSudoku();
+            hp--;
+        }
+        if (col.gameObject.tag == "PlayerAttack")
+        {
+            Destroy(col.gameObject);
+            hp--;
+        }
     }
 }
