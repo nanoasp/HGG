@@ -221,7 +221,7 @@ public class BeamAttackState : IState
 
 public class PlayerController2D : MonoBehaviour
 {
- 
+
     //////////////////////////////////////////////////////
     ///                                                ///
     /// Player variables                               ///
@@ -269,7 +269,7 @@ public class PlayerController2D : MonoBehaviour
     public const float mGravityScale = 0.0f;
 
     public bool mFacingRight = true;
-    
+
     int mHorizontal = 0;
     int mVertical = 0;
 
@@ -278,14 +278,14 @@ public class PlayerController2D : MonoBehaviour
     Transform mTransform;
     Animator mAnimator;
 
-    StateMachine mStateMachine =  new StateMachine();
-    
+    StateMachine mStateMachine = new StateMachine();
+
     //////////////////////////////////////////////////////
     ///                                                ///
     /// Beam variables                                 ///
     ///                                                ///
     //////////////////////////////////////////////////////
- 
+
     public float mBeamChargeRate = 5.0f;
     public float mBeamDepletionRate = 5.5f;
     public float mBeamMax = 100.0f;
@@ -308,6 +308,14 @@ public class PlayerController2D : MonoBehaviour
     public ANIKI_STATES mAnikiState = ANIKI_STATES.SANDWICH;
     float mChangeTimer = 0.0f;
     public float mChangeDelay = 0.75f;
+
+    //////////////////////////////////////////////////////
+    ///                                                ///
+    /// Sound variables                                ///
+    ///                                                ///
+    //////////////////////////////////////////////////////
+
+    bool mSoundDelay = false;
 
     // Start is called before the first frame update
     void Start()
@@ -375,6 +383,7 @@ public class PlayerController2D : MonoBehaviour
         {
             mStateMachine.ChangeState((int)PLAYER_STATES.BEAM_ATTACK);
             //mAnimator.SetInteger("state", (int)PLAYER_STATES.BEAM_ATTACK);
+            playBeam();
         }
         else if (mChangeTimer <= 0.0f && Input.GetKey(KeyCode.X))
         {
@@ -386,7 +395,7 @@ public class PlayerController2D : MonoBehaviour
             mAnikiOne.Toggle();
             mAnikiTwo.Toggle();
         }
-        else if(Input.GetKey(KeyCode.C))
+        else if (Input.GetKey(KeyCode.C))
         {
             mStateMachine.ChangeState((int)PLAYER_STATES.CHARGE);
             //mAnimator.SetInteger("state", (int)PLAYER_STATES.CHARGE);
@@ -395,10 +404,12 @@ public class PlayerController2D : MonoBehaviour
         {
             mStateMachine.ChangeState((int)PLAYER_STATES.ATTACK);
             //mAnimator.SetInteger("state", (int)PLAYER_STATES.ATTACK);
+            if (!mSoundDelay)
+                playShoot();
         }
         else
         {
-            if(mHorizontal == 0 && mVertical == 0)
+            if (mHorizontal == 0 && mVertical == 0)
             {
                 mStateMachine.ChangeState((int)PLAYER_STATES.IDLE);
                 //mAnimator.SetInteger("state", (int)PLAYER_STATES.IDLE);
@@ -423,7 +434,7 @@ public class PlayerController2D : MonoBehaviour
                 break;
             case PLAYER_STATES.CHARGE:
                 mBeamCounter += mBeamChargeRate * Time.deltaTime;
-                
+
                 if (mBeamCounter > mBeamMax)
                     mBeamCounter = mBeamMax;
 
@@ -443,7 +454,7 @@ public class PlayerController2D : MonoBehaviour
         // Apply movement velocity
         float movespd_x, movespd_y;
 
-        switch((PLAYER_STATES)mStateMachine.GetStateNumber())
+        switch ((PLAYER_STATES)mStateMachine.GetStateNumber())
         {
             default:
             case PLAYER_STATES.MOVE:
@@ -471,14 +482,27 @@ public class PlayerController2D : MonoBehaviour
     {
         if (col.gameObject.tag == "EnemyAttack" || col.gameObject.tag == "Enemy")
         {
-            
+
         }
     }
 
-    //public void playRoll()
-    //{
-    //    FindObjectOfType<AudioManager>().Play("Roll");
-    //
-    //}
+    public void playShoot()
+    {
+        FindObjectOfType<AudioManager>().Play("PlayerShoot");
+        mSoundDelay = true;
+        Invoke("offSoundDelay", .2f);
+    }
+
+    public void offSoundDelay()
+    {
+        mSoundDelay = false;
+    }
+
+    public void playBeam()
+    {
+        FindObjectOfType<AudioManager>().Play("PlayerBeam");
+        //mSoundDelay = true;
+        //Invoke("offSoundDelay", .2f);
+    }
 
 }
