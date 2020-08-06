@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1393758475650628415}
   - component: {fileID: 1393758475650628414}
   m_Layer: 0
-  m_Name: DropdownEnemy
+  m_Name: 1BulletAi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHp: 5
-  dropResource: {fileID: 0}
+  dropResource: {fileID: 9214372419043996555, guid: 1e392bbe650abea4db6251511310783d,
+    type: 3}
   velocity: {x: 0, y: 0}
   speed: 0
   rotation: 0
@@ -58,6 +59,7 @@ MonoBehaviour:
   jumpVelocity: 0
   spin: 0
   spinVelocity: 0
+  decelerate: 0
 --- !u!212 &1972235054304926008
 SpriteRenderer:
   m_ObjectHideFlags: 0
