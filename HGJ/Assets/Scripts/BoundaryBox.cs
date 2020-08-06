@@ -18,7 +18,7 @@ public class BoundaryBox : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D col)
     {
-       if (col.gameObject.tag == "EnemyAttack" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "PlayerAttack")
+       if (col.gameObject.tag == "PlayerWater" || col.gameObject.tag == "EnemyAttack" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "PlayerAttack")
        {
             Destroy(col.gameObject);
        }
