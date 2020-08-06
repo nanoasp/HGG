@@ -20,9 +20,15 @@ public class BasicAi : MonoBehaviour
     public bool decelerate; 
 
     float flipTime;
+
+    private UnityEngine.Object explosionRef;
+    SpriteRenderer sr;
+
     // Start is called before the first frame update
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
+        explosionRef = Resources.Load("Explosion");
         
         hp = startHp;
 
@@ -48,12 +54,6 @@ public class BasicAi : MonoBehaviour
             }
         }
 
-        if (hp < 0)
-        {
-            Destroy();
-            Instantiate(dropResource, transform);
-        }
-
         if (spin)
         {
             transform.rotation = Quaternion.Euler(0, 0, rotation);
@@ -74,11 +74,36 @@ public class BasicAi : MonoBehaviour
         if(col.gameObject.tag == "PlayerAttack")
         {
             hp -= 1;
+            playRoll();
+            sr.color = new Color(1f, 1f, 1f, .5f);
+
+            if (hp < 0)
+            {
+                Destroy();
+                Instantiate(dropResource, transform);
+            }
+            else
+            {
+                Invoke("ResetMaterial", .1f);
+            }
         }
+    }
+
+    void ResetMaterial()
+    {
+        sr.color = new Color(1f, 1f, 1f, 1f);
     }
 
     void Destroy()
     {
+        GameObject explosion = (GameObject)Instantiate(explosionRef);
+        explosion.transform.position = new Vector3(transform.position.x, transform.position.y);
         Destroy(this.gameObject);
+    }
+
+    public void playRoll()
+    {
+        FindObjectOfType<AudioManager>().Play("Hit");
+    
     }
 }

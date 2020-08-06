@@ -96,7 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyResource: {fileID: 1972235054304926011, guid: 61f34006168e87a4f81607b6fbbda529,
     type: 3}
-  cooldown: 0.5
+  cooldown: 0.8
   enemySpeed: 1.5
   enemyHp: 2
   enemyVelocity: {x: -1, y: 0}
