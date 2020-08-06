@@ -98,7 +98,7 @@ MonoBehaviour:
     type: 3}
   cooldown: 0.8
   enemySpeed: 1.5
-  enemyHp: 2
+  enemyHp: 1
   enemyVelocity: {x: -1, y: 0}
   numberOfEnemies: 5
   enemyFlip: 0

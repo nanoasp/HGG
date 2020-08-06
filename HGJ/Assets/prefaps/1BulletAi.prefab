@@ -206,6 +206,6 @@ MonoBehaviour:
   maxRotation: 230
   numberOfBullets: 1
   isRandom: 1
-  cooldown: 2
+  cooldown: 3
   bulletSpeed: 2
   bulletVelocity: {x: 1, y: 0}
