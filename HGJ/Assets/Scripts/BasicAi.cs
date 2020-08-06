@@ -73,6 +73,8 @@ public class BasicAi : MonoBehaviour
     {
         if(col.gameObject.tag == "PlayerAttack")
         {
+            Destroy(col.gameObject);
+
             hp -= 1;
             sr.color = new Color(1f, 1f, 1f, .5f);
 

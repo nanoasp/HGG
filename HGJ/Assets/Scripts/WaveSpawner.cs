@@ -11,11 +11,11 @@ static class Constants
     public const float X_LEFT = -1.0f;
     public const float Y_HEAVEN = 5.2f;
 
-    public const float Y_TOP = 4.5f;
+    public const float Y_TOP = 4.0f;
     public const float Y_MIDDLE_T = 2.0f;
     public const float Y_MIDDLE = 0.0f;
     public const float Y_MIDDLE_B = -2.0f;
-    public const float Y_BOTTOM = -4.5f;
+    public const float Y_BOTTOM = -4.0f;
     public const float Y_HELL = -5.2f;
 }
 

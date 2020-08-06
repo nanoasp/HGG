@@ -334,12 +334,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mLaser: {fileID: 104094799}
   mLaser2: {fileID: 2085223498}
+  mPlayer: {fileID: 6754134491456353593}
+  mSingleLaserPrefab: {fileID: 1231867022062207845, guid: bf969c9c6cfc6c4468adb107e19b3224,
+    type: 3}
   mAnimator: {fileID: 0}
   mAttackInterval: 5
   mAttackCounter: 0
   mAttackPattern: 1
   mIdle: 1
   mIsLaserAttack: 0
+  mIsSingleShot: 0
 --- !u!1001 &1688292865
 PrefabInstance:
   m_ObjectHideFlags: 0
