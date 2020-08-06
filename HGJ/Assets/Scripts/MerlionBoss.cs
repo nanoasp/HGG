@@ -41,6 +41,8 @@ public class ML_SingleBeamState : IState
     Transform mLaserTransform;
     const float laser_size = 3.0f;
 
+    float player_x;
+
     public ML_SingleBeamState(MerlionBoss owner)
     {
         this.owner = owner;
@@ -60,6 +62,8 @@ public class ML_SingleBeamState : IState
 
     public void Execute()
     {
+        player_x = owner.mPlayer.transform.position.x;
+
         if (mStartDelay > 0.0f)
         {
             mStartDelay -= Time.deltaTime;
@@ -74,9 +78,10 @@ public class ML_SingleBeamState : IState
             {
                 mSizeCounter = laser_size;
                 GameObject laser = MerlionBoss.Instantiate(owner.mSingleLaserPrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, -90.0f)) as GameObject;
-                laser.transform.position = new Vector2(owner.mPlayer.transform.position.x, laser.transform.position.y);
+                laser.transform.position = new Vector2(player_x, laser.transform.position.y);
             }
 
+            owner.mLaserMouth.transform.localScale = new Vector2(1.0f, 1.0f);
             mLaserTransform.localScale = new Vector3(laser_size, mSizeCounter, 0.0f);
 
             return;
@@ -91,6 +96,7 @@ public class ML_SingleBeamState : IState
 
     public void Exit()
     {
+        owner.mLaserMouth.transform.localScale = new Vector2(0.0f, 0.0f);
         mLaserTransform.localScale = new Vector3(laser_size, 0.0f, 0.0f);
         owner.mIsLaserAttack = false;
         owner.mAnimator.SetBool("IsSingleShot", false);
@@ -146,7 +152,8 @@ public class ML_LaserAttackState : IState
                 mSizeCounter = laser_size;
                 mLaser.Activate();
             }
-            
+
+            owner.mLaserMouth.transform.localScale = new Vector2(1.0f, 1.0f);
             mLaserTransform.localScale = new Vector3(laser_size, mSizeCounter, 0.0f);
 
             return;
@@ -166,6 +173,7 @@ public class ML_LaserAttackState : IState
 
     public void Exit()
     {
+        owner.mLaserMouth.transform.localScale = new Vector2(0.0f, 0.0f);
         mLaserTransform.localScale = new Vector3(laser_size, 0.0f, 0.0f);
         owner.mIsLaserAttack = false;
         owner.mAnimator.SetBool("IsLaser", false);
@@ -176,17 +184,83 @@ public class ML_LaserAttackState : IState
     }
 }
 
+public class ML_VolleyAttackState : IState
+{
+    MerlionBoss owner;
+    MerlionAcrBulletSpawner mThrower;
+    float mStartDelay = 0.5f;
+    float mEndDelay = 0.25f;
+
+    float mSpawnInterval = 0.1f;
+    float mSpawnCounter = 0.0f;
+    float mLife = 5.0f;
+
+    public ML_VolleyAttackState(MerlionBoss owner)
+    {
+        this.owner = owner;
+        mThrower = owner.mVolleySpawner.GetComponent<MerlionAcrBulletSpawner>();
+        mSpawnCounter = mSpawnInterval;
+    }
+
+    public void Enter()
+    {
+        owner.mIsLaserAttack = true;
+        owner.mAnimator.SetBool("IsLaser", true);
+    }
+
+    public void Execute()
+    {
+        if (mStartDelay > 0.0f)
+        {
+            mStartDelay -= Time.deltaTime;
+            return;
+        }
+
+        if(mLife > 0.0f)
+        {
+            mSpawnCounter += Time.deltaTime;
+
+            if(mSpawnCounter >= mSpawnInterval)
+            {
+                mThrower.Spawn();
+                mSpawnCounter = 0.0f;
+            }
+
+            mLife -= Time.deltaTime;
+            return;
+        }
+
+        mEndDelay -= Time.deltaTime;
+        if (mEndDelay <= 0.0f)
+        {
+            owner.mStateMachine.ChangeState(0);
+        }
+    }
+
+    public void Exit()
+    {
+        owner.mIsLaserAttack = false;
+        owner.mAnimator.SetBool("IsLaser", false);
+        owner.mIdle = true;
+        mStartDelay = 0.5f;
+        mEndDelay = 0.25f;
+    }
+}
+
 public class MerlionBoss : MonoBehaviour
 {
     public enum ML_STATES
     {
         IDLE = 0,
+        VOLLEY_ATTACK,
         SINGLE_ATTACK,
         LASER_ATTACK,
         END
     };
 
     public GameObject mLaser;
+    public GameObject mLaserMouth;
+    public GameObject mVolleySpawner;
     public GameObject mLaser2;
     public GameObject mPlayer;
     public GameObject mSingleLaserPrefab;
@@ -206,6 +280,7 @@ public class MerlionBoss : MonoBehaviour
     {
         //we default to idle state
         mStateMachine.RegisterState(new ML_IdleState(this), (int)ML_STATES.IDLE);
+        mStateMachine.RegisterState(new ML_VolleyAttackState(this), (int)ML_STATES.VOLLEY_ATTACK);
         mStateMachine.RegisterState(new ML_SingleBeamState(this), (int)ML_STATES.SINGLE_ATTACK);
         mStateMachine.RegisterState(new ML_LaserAttackState(this), (int)ML_STATES.LASER_ATTACK);
         mAnimator = GetComponent<Animator>();
