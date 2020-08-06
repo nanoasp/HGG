@@ -71,9 +71,16 @@ public class BasicAi : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.tag == "PlayerAttack")
+        if(col.gameObject.tag == "PlayerAttack" || col.gameObject.tag == "PlayerWater")
         {
-            Destroy(col.gameObject);
+            if (col.gameObject.tag == "PlayerWater")
+            {
+                col.gameObject.GetComponent<waterdropkillscript>().commitSudoku();
+            }
+            else{ 
+                Destroy(col.gameObject);
+
+            }
 
             hp -= 1;
             sr.color = new Color(1f, 1f, 1f, .5f);
@@ -90,6 +97,9 @@ public class BasicAi : MonoBehaviour
                 Invoke("ResetMaterial", .1f);
             }
         }
+
+
+
     }
 
     void ResetMaterial()
