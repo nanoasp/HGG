@@ -119,7 +119,7 @@ MonoBehaviour:
   mVerticalBeamMoveSpeed: 5
   mProjectileSpeed: 8
   mFacingRight: 1
-  mBeamChargeRate: 5
+  mBeamChargeRate: 20
   mBeamDepletionRate: 10
   mBeamMax: 100
   mBeamCounter: 100

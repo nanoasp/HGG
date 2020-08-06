@@ -63,4 +63,15 @@ public class Trolleybehaviour : MonoBehaviour
             variationFlag = 0;
         }
     }
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "PlayerWater")
+        {
+            col.gameObject.GetComponent<waterdropkillscript>().commitSudoku();
+        }
+        if (col.gameObject.tag == "PlayerAttack")
+        {
+            Destroy(col.gameObject);
+        }
+    }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2076703388192987255}
   - component: {fileID: 239895971140856515}
   - component: {fileID: 6476278359290873701}
+  - component: {fileID: 8585572116940966832}
   m_Layer: 0
   m_Name: TrolleyAunty
   m_TagString: Untagged
@@ -102,3 +103,29 @@ MonoBehaviour:
   myBulletsVariations:
   - {fileID: 1828506817689115226, guid: e6da93bab4fabdc47ada9877f273d654, type: 3}
   - {fileID: 3998917933078501883, guid: 40b9d144fd6c5344c92a2003ead57791, type: 3}
+--- !u!61 &8585572116940966832
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5019662576038682362}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.05, y: 2.95}
+    newSize: {x: 2.05, y: 2.95}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.05, y: 2.95}
+  m_EdgeRadius: 0

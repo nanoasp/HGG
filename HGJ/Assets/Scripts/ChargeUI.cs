@@ -9,6 +9,7 @@ public class ChargeUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        box = GetComponent<Image>();
         Player = GameObject.Find("Player").GetComponent<PlayerController2D>();
     }
 

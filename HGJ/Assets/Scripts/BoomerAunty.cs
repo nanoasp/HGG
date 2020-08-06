@@ -40,6 +40,7 @@ public class BoomerAunty : MonoBehaviour
     Collider2D mCollider;
     Transform mTransform;
     public StateMachine mStateMachine = new StateMachine();
+    SpriteRenderer sr;
 
     // Start is called before the first frame update
     void Start()
@@ -63,12 +64,31 @@ public class BoomerAunty : MonoBehaviour
         myTrolley = Instantiate(trolleyPrefab);
         myTrolley.transform.position = transform.position + (Vector3.left * 3);
         player = GameObject.Find("Player");
+        sr = GetComponent<SpriteRenderer>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         mStateMachine.Update();
+        sr.color = new Color(1f, 1f, 1f, 1.0f);
+
+    }
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "PlayerAttack")
+        {
+            currentHealth--;
+            sr.color = new Color(1f, 1f, 1f, .5f);
+            Destroy(col.gameObject);
+        }
+
+        if (col.gameObject.tag == "PlayerWater")
+        {
+            col.gameObject.GetComponent<waterdropkillscript>().commitSudoku();
+        }
+
     }
 }
 
@@ -508,8 +528,6 @@ public class P2ARCBOMBARDMENTState : IState
             if (currtimer > shotDelay) { 
                 // shoots a bullet
                 owner.myTrolley.GetComponent<Trolleybehaviour>().ShootArc(); //  change to arc bullet
-                currtimer = 0;
-                isShooting = false;
             }
 
 
