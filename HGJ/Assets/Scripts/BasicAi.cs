@@ -74,11 +74,12 @@ public class BasicAi : MonoBehaviour
         if(col.gameObject.tag == "PlayerAttack")
         {
             hp -= 1;
-            playRoll();
             sr.color = new Color(1f, 1f, 1f, .5f);
 
             if (hp < 0)
             {
+                playRoll();
+
                 Destroy();
                 Instantiate(dropResource, transform);
             }
