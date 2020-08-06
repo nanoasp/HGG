@@ -19,6 +19,7 @@ static class Constants
     public const float Y_HELL = -5.2f;
 }
 
+
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject[] enemyResource;
@@ -42,7 +43,7 @@ public class WaveSpawner : MonoBehaviour
         StartCoroutine(SpawnWave(enemyResource[3], 70.0f, new Vector2(Constants.X_RIGHT_M, Constants.Y_HELL)));
         StartCoroutine(SpawnWave(enemyResource[3], 70.0f, new Vector2(Constants.X_RIGHT_R, Constants.Y_HELL)));
         StartCoroutine(SpawnWave(enemyResource[4], 78.0f, new Vector2(Constants.X_RIGHT_R, Constants.Y_HELL)));
-
+        StartCoroutine(SpawnWave(enemyResource[5], 100.0f, new Vector2(Constants.X_RIGHT_R, Constants.Y_MIDDLE)));
     }
 
     // Update is called once per frame
