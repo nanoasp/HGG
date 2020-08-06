@@ -31,6 +31,7 @@ public class BoomerAunty : MonoBehaviour
     public GameObject bullet1Prefab;
     public GameObject bullet2Prefab;
     public GameObject bullet3Prefab;
+    public GameObject bullet4Prefab;
 
     public float currentHealth;
     public bool invul;
@@ -86,6 +87,7 @@ public class BoomerAunty : MonoBehaviour
 
         if (col.gameObject.tag == "PlayerWater")
         {
+            currentHealth--;
             col.gameObject.GetComponent<waterdropkillscript>().commitSudoku();
         }
 
@@ -172,6 +174,7 @@ public class P1SHOOTFRONTState : IState
             {
                 // shoots a bullet
                 owner.myTrolley.GetComponent<Trolleybehaviour>().ShootPri();
+                GameObject.Instantiate(owner.bullet4Prefab);
                 // TODO :: add recoil
                 spriVel = 20.0f;
                 shotCount++;
@@ -249,6 +252,7 @@ public class P1SHOOTFRONTState : IState
             aligntimer = 0.0f;
             recoilTargetpos = owner.transform.position.x;
             spriVel = 0.0f;
+            GameObject.Instantiate(owner.bullet4Prefab);
 
         }
     }
@@ -497,6 +501,7 @@ public class P2ARCBOMBARDMENTState : IState
     Camera camera;
     bool moving;
     Vector3 newpos;
+    bool disablearc;
     // numeric spring for recoil
     public P2ARCBOMBARDMENTState(BoomerAunty owner)
     {
@@ -510,14 +515,18 @@ public class P2ARCBOMBARDMENTState : IState
         currtimer = 0.0f;
         playercollectionpos.Add(owner.player.transform.position.y);
         moving = false;
+        disablearc = true;
     }
 
     public void Execute()
     {
         currtimer += Time.deltaTime;
+
         if (!isShooting && currtimer > delayBeforeShooting)
         {
             // starts shooting process
+            currtimer = 0.0f;
+
             isShooting = true;
         }
         else {
@@ -525,9 +534,15 @@ public class P2ARCBOMBARDMENTState : IState
         }
         if (isShooting)
         {
-            if (currtimer > shotDelay) { 
+            if (currtimer > shotDelay ) {
+                GameObject.Instantiate(owner.bullet4Prefab);
+                currtimer = 0;
                 // shoots a bullet
-                owner.myTrolley.GetComponent<Trolleybehaviour>().ShootArc(); //  change to arc bullet
+                if (disablearc) {
+                    owner.myTrolley.GetComponent<Trolleybehaviour>().ShootArc(); //  change to arc bullet
+                    disablearc = false;
+
+                }
             }
 
 
@@ -561,7 +576,7 @@ public class P2ARCBOMBARDMENTState : IState
             moveTrolleytoDefultPos();
             if (!isShooting && currtimer == 0)
             {
-                owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.P1DASHFRONT);
+                owner.mStateMachine.ChangeState((int)BoomerAunty.BOSSATTACKS.DEAD);
             }
         }
     }
