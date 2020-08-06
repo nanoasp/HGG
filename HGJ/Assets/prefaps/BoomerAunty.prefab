@@ -107,6 +107,8 @@ MonoBehaviour:
     type: 3}
   bullet4Prefab: {fileID: 2343934675181446774, guid: d795613092939bb47bb01d87486dedcb,
     type: 3}
+  nextLevelScreen: {fileID: 4288144861666869531, guid: db7149bb7fad92f45a2ab93ed834d7f1,
+    type: 3}
   currentHealth: 1
   invul: 0
 --- !u!61 &87362463612839704

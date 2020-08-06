@@ -18,10 +18,10 @@ public class BoomerAunty : MonoBehaviour
         P1SHOOTFRONT,
         P1DASHFRONT,
         P2ARCBOMBARDMENT,
-        P2SPIN,
-        P3SHOOTFRONT,
-        P38WAYSPIN,
-        P3TROLLEYBOMBARDMENT,
+        //P2SPIN,
+        //P3SHOOTFRONT,
+        //P38WAYSPIN,
+        //P3TROLLEYBOMBARDMENT,
         DEAD
 
     };
@@ -32,6 +32,7 @@ public class BoomerAunty : MonoBehaviour
     public GameObject bullet2Prefab;
     public GameObject bullet3Prefab;
     public GameObject bullet4Prefab;
+    public GameObject nextLevelScreen;
 
     public float currentHealth;
     public bool invul;
@@ -150,7 +151,7 @@ public class P1SHOOTFRONTState : IState
     }
     public void Enter()
     {
-        owner.currentHealth = 100;
+        owner.currentHealth = 1000;
         isShooting = false;
         currtimer = 0.0f;
         playercollectionpos.Add(owner.player.transform.position.y);
@@ -313,7 +314,7 @@ public class P1DASHFRONTState : IState
     }
     public void Enter()
     {
-        owner.currentHealth = 100;
+        owner.currentHealth = 1000;
         currtimer = 0.0f;
         playercollectionpos.Add(owner.player.transform.position.y);
         dashSpeed = 18; 
@@ -510,7 +511,7 @@ public class P2ARCBOMBARDMENTState : IState
     }
     public void Enter()
     {
-        owner.currentHealth = 100;
+        owner.currentHealth = 1000;
         isShooting = false;
         currtimer = 0.0f;
         playercollectionpos.Add(owner.player.transform.position.y);
@@ -664,6 +665,7 @@ public class DEADState : IState
     {
         // do death feed back
 
+        GameObject.Instantiate(owner.nextLevelScreen);
     }
 
     
