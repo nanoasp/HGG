@@ -43,6 +43,7 @@ public class BoomerAunty : MonoBehaviour
     Transform mTransform;
     public StateMachine mStateMachine = new StateMachine();
     SpriteRenderer sr;
+    public Animator mAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +68,7 @@ public class BoomerAunty : MonoBehaviour
         myTrolley.transform.position = transform.position + (Vector3.left * 3);
         player = GameObject.Find("Player");
         sr = GetComponent<SpriteRenderer>();
-
+        mAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -156,6 +157,8 @@ public class P1SHOOTFRONTState : IState
         currtimer = 0.0f;
         playercollectionpos.Add(owner.player.transform.position.y);
         moving = false;
+
+        owner.mAnimator.SetBool("isManualShout", true);
     }
 
     public void Execute()
@@ -282,7 +285,7 @@ public class P1SHOOTFRONTState : IState
     }
     public void Exit()
     {
-
+        owner.mAnimator.SetBool("isManualShout", false);
     }
 }
 public class P1DASHFRONTState : IState
@@ -320,6 +323,7 @@ public class P1DASHFRONTState : IState
         dashSpeed = 18; 
 
         currstate = state.reseting;
+        owner.mAnimator.SetBool("isManualShout", true);
     }
 
     public void Execute()
@@ -482,7 +486,7 @@ public class P1DASHFRONTState : IState
     }
     public void Exit()
     {
-
+        owner.mAnimator.SetBool("isManualShout", false);
     }
 }
 
