@@ -247,6 +247,98 @@ public class ML_VolleyAttackState : IState
     }
 }
 
+public class ML_TailAttackState : IState
+{
+    MerlionBoss owner;
+    MerlionAcrBulletSpawner mThrower;
+    float mStartDelay = 0.5f;
+    float mEndDelay = 0.25f;
+
+    float mSpawnInterval = 0.3f;
+    float mSpawnCounter = 0.0f;
+    float mLife = 5.0f;
+
+    float mOriginalY = -0.2f;
+    float mNewY = -5.0f;
+
+    public ML_TailAttackState(MerlionBoss owner)
+    {
+        this.owner = owner;
+        mThrower = owner.mVolleySpawner.GetComponent<MerlionAcrBulletSpawner>();
+        mSpawnCounter = mSpawnInterval;
+    }
+
+    public void Enter()
+    {
+        owner.mIsLaserAttack = true;
+        //owner.mAnimator.SetBool("IsLaser", true);
+    }
+
+    public void Execute()
+    {
+        if(owner.transform.position.y > -5.0f && mLife > 0.0f)
+        {
+            float pos_y = owner.transform.position.y - Time.deltaTime * 5.0f;
+            if (pos_y < -5.0f)
+                pos_y = -5.0f;
+
+            owner.transform.position = new Vector3(owner.transform.position.x, pos_y, owner.transform.position.z);
+            return;
+        }
+
+        owner.mAnimator.SetBool("IsLaser", true);
+
+        if (mStartDelay > 0.0f)
+        {
+            mStartDelay -= Time.deltaTime;
+            return;
+        }
+
+        if (mLife == 5.0f)
+            owner.mTailSpawner.GetComponent<MerlionTailSpawner>().Spawn();
+
+        if (mLife > 0.0f)
+        {
+            mSpawnCounter += Time.deltaTime;
+
+            if (mSpawnCounter >= mSpawnInterval)
+            {
+                mThrower.Spawn();
+                mSpawnCounter = 0.0f;
+            }
+
+            mLife -= Time.deltaTime;
+            return;
+        }
+
+        owner.mAnimator.SetBool("IsLaser", false);
+
+        if (owner.transform.position.y < -0.2f)
+        {
+            float pos_y = owner.transform.position.y + Time.deltaTime * 5.0f;
+            if (pos_y > -0.2f)
+                pos_y = -0.2f;
+
+            owner.transform.position = new Vector3(owner.transform.position.x, pos_y, owner.transform.position.z);
+            return;
+        }
+
+        mEndDelay -= Time.deltaTime;
+        if (mEndDelay <= 0.0f)
+        {
+            owner.mStateMachine.ChangeState(0);
+        }
+    }
+
+    public void Exit()
+    {
+        owner.mIsLaserAttack = false;
+        owner.mIdle = true;
+        mStartDelay = 0.5f;
+        mEndDelay = 0.25f;
+    }
+}
+
 public class MerlionBoss : MonoBehaviour
 {
     public enum ML_STATES
@@ -254,6 +346,7 @@ public class MerlionBoss : MonoBehaviour
         IDLE = 0,
         VOLLEY_ATTACK,
         SINGLE_ATTACK,
+        TAIL_ATTACK,
         LASER_ATTACK,
         END
     };
@@ -263,6 +356,7 @@ public class MerlionBoss : MonoBehaviour
     public GameObject mVolleySpawner;
     public GameObject mLaser2;
     public GameObject mPlayer;
+    public GameObject mTailSpawner;
     public GameObject mSingleLaserPrefab;
     public StateMachine mStateMachine = new StateMachine();
     public Animator mAnimator;
@@ -282,6 +376,7 @@ public class MerlionBoss : MonoBehaviour
         mStateMachine.RegisterState(new ML_IdleState(this), (int)ML_STATES.IDLE);
         mStateMachine.RegisterState(new ML_VolleyAttackState(this), (int)ML_STATES.VOLLEY_ATTACK);
         mStateMachine.RegisterState(new ML_SingleBeamState(this), (int)ML_STATES.SINGLE_ATTACK);
+        mStateMachine.RegisterState(new ML_TailAttackState(this), (int)ML_STATES.TAIL_ATTACK);
         mStateMachine.RegisterState(new ML_LaserAttackState(this), (int)ML_STATES.LASER_ATTACK);
         mAnimator = GetComponent<Animator>();
     }
