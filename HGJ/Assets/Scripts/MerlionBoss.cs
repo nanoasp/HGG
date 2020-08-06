@@ -244,6 +244,7 @@ public class ML_VolleyAttackState : IState
         owner.mIdle = true;
         mStartDelay = 0.5f;
         mEndDelay = 0.25f;
+        mLife = 5.0f;
     }
 }
 
@@ -336,6 +337,84 @@ public class ML_TailAttackState : IState
         owner.mIdle = true;
         mStartDelay = 0.5f;
         mEndDelay = 0.25f;
+        mLife = 5.0f;
+    }
+}
+
+public class ML_HeadAttackState : IState
+{
+    MerlionBoss owner;
+    MerlionHeadSpawner mThrower;
+    float mStartDelay = 1.0f;
+    float mEndDelay = 0.25f;
+
+    float mLife = 6.0f;
+
+    float mOriginalX = 5.6f;
+    float mNewX = 13.0f;
+
+    public ML_HeadAttackState(MerlionBoss owner)
+    {
+        this.owner = owner;
+        mThrower = owner.mHeadSpawner.GetComponent<MerlionHeadSpawner>();
+    }
+
+    public void Enter()
+    {
+        owner.mIsLaserAttack = true;
+    }
+
+    public void Execute()
+    {
+        if (owner.transform.position.x < mNewX && mLife > 0.0f)
+        {
+            float pos_x = owner.transform.position.x + Time.deltaTime * 5.0f;
+            if (pos_x >= mNewX)
+                pos_x = mNewX;
+
+            owner.transform.position = new Vector3(pos_x, owner.transform.position.y, owner.transform.position.z);
+            return;
+        }
+
+        if (mStartDelay > 0.0f)
+        {
+            mStartDelay -= Time.deltaTime;
+            return;
+        }
+
+        if (mLife == 6.0f)
+            owner.mHeadSpawner.GetComponent<MerlionHeadSpawner>().Spawn();
+
+        if (mLife > 0.0f)
+        {
+            mLife -= Time.deltaTime;
+            return;
+        }
+
+        if (owner.transform.position.x > mOriginalX)
+        {
+            float pos_x = owner.transform.position.x - Time.deltaTime * 5.0f;
+            if (pos_x <= mOriginalX)
+                pos_x = mOriginalX;
+
+            owner.transform.position = new Vector3(pos_x, owner.transform.position.y, owner.transform.position.z);
+            return;
+        }
+
+        mEndDelay -= Time.deltaTime;
+        if (mEndDelay <= 0.0f)
+        {
+            owner.mStateMachine.ChangeState(0);
+        }
+    }
+
+    public void Exit()
+    {
+        owner.mIsLaserAttack = false;
+        owner.mIdle = true;
+        mStartDelay = 0.5f;
+        mEndDelay = 0.25f;
+        mLife = 6.0f;
     }
 }
 
@@ -348,6 +427,7 @@ public class MerlionBoss : MonoBehaviour
         SINGLE_ATTACK,
         TAIL_ATTACK,
         LASER_ATTACK,
+        HEAD_ATTACK,
         END
     };
 
@@ -357,6 +437,7 @@ public class MerlionBoss : MonoBehaviour
     public GameObject mLaser2;
     public GameObject mPlayer;
     public GameObject mTailSpawner;
+    public GameObject mHeadSpawner;
     public GameObject mSingleLaserPrefab;
     public StateMachine mStateMachine = new StateMachine();
     public Animator mAnimator;
@@ -378,6 +459,7 @@ public class MerlionBoss : MonoBehaviour
         mStateMachine.RegisterState(new ML_SingleBeamState(this), (int)ML_STATES.SINGLE_ATTACK);
         mStateMachine.RegisterState(new ML_TailAttackState(this), (int)ML_STATES.TAIL_ATTACK);
         mStateMachine.RegisterState(new ML_LaserAttackState(this), (int)ML_STATES.LASER_ATTACK);
+        mStateMachine.RegisterState(new ML_HeadAttackState(this), (int)ML_STATES.HEAD_ATTACK);
         mAnimator = GetComponent<Animator>();
     }
 
@@ -402,6 +484,13 @@ public class MerlionBoss : MonoBehaviour
                 mAttackCounter = 0.0f;
                 mIdle = false;
             }
+        }
+    }
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "PlayerAttack" || col.gameObject.tag == "Player")
+        {
+
         }
     }
 }
