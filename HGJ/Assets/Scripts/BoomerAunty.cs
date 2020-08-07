@@ -694,6 +694,7 @@ public class DEADState : IState
     }
     public void Enter()
     {
+        GameObject.Instantiate(owner.nextLevelScreen);
 
     }
 
@@ -701,7 +702,6 @@ public class DEADState : IState
     {
         // do death feed back
 
-        GameObject.Instantiate(owner.nextLevelScreen);
     }
 
     
