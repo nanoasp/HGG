@@ -88,5 +88,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iterations: 7
-  blurSpread: 0.7
+  blurSpread: 0.2
   blurShader: {fileID: 4800000, guid: 6b18c4c2e319caa4fb3b5015e0639a7d, type: 3}
