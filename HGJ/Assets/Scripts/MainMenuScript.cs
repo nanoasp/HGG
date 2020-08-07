@@ -20,7 +20,7 @@ public class MainMenuScript : MonoBehaviour
     }
 
     public void startGame() {
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("IntroCutscene");
 
     }
 
