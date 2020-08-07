@@ -272,6 +272,7 @@ public class ML_TailAttackState : IState
     public void Enter()
     {
         owner.mIsLaserAttack = true;
+        owner.mImmune = true;
         //owner.mAnimator.SetBool("IsLaser", true);
     }
 
@@ -338,6 +339,7 @@ public class ML_TailAttackState : IState
         mStartDelay = 0.5f;
         mEndDelay = 0.25f;
         mLife = 5.0f;
+        owner.mImmune = false;
     }
 }
 
@@ -357,6 +359,7 @@ public class ML_HeadAttackState : IState
     {
         this.owner = owner;
         mThrower = owner.mHeadSpawner.GetComponent<MerlionHeadSpawner>();
+        owner.mImmune = true;
     }
 
     public void Enter()
@@ -415,6 +418,7 @@ public class ML_HeadAttackState : IState
         mStartDelay = 0.5f;
         mEndDelay = 0.25f;
         mLife = 6.0f;
+        owner.mImmune = false;
     }
 }
 
@@ -444,9 +448,13 @@ public class MerlionBoss : MonoBehaviour
 
     public float mAttackInterval;
     public float mAttackCounter = 0.0f;
+    float mFlickerTime = 0.0f;
+
+    public int mHp = 150;
     public int mAttackPattern = 0;
     
     public bool mIdle = true;
+    public bool mImmune = false;
     public bool mIsLaserAttack = false;
     public bool mIsSingleShot = false;
 
@@ -467,7 +475,24 @@ public class MerlionBoss : MonoBehaviour
     void Update()
     {
         mStateMachine.Update();
-       
+
+        if (mFlickerTime > 0.0f)
+        {
+            float alpha = GetComponent<SpriteRenderer>().color.a;
+
+            if(alpha == 1.0f)
+                GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+            else
+                GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+            mFlickerTime -= Time.deltaTime;
+
+            if (mFlickerTime <= 0.0f)
+                mFlickerTime = 0.0f;
+        }
+        else
+            GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
         if (mIdle)
         {
             mAttackCounter += Time.deltaTime;
@@ -490,7 +515,12 @@ public class MerlionBoss : MonoBehaviour
     {
         if (col.gameObject.tag == "PlayerAttack" || col.gameObject.tag == "Player")
         {
-
+            if (!mImmune)
+            {
+                Destroy(col.gameObject);
+                mHp--;
+                mFlickerTime = 0.5f;
+            }
         }
     }
 }
