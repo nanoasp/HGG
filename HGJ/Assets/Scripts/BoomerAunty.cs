@@ -158,7 +158,6 @@ public class P1SHOOTFRONTState : IState
         playercollectionpos.Add(owner.player.transform.position.y);
         moving = false;
 
-        owner.mAnimator.SetBool("isManualShout", true);
     }
 
     public void Execute()
@@ -168,7 +167,7 @@ public class P1SHOOTFRONTState : IState
             // starts shooting process
             //isShooting = true;
             moveTrolleytoFirePos();
-            
+
 
         }
         else if (isShooting && currtimer > shotDelay)
@@ -176,6 +175,7 @@ public class P1SHOOTFRONTState : IState
 
             if (shotCount < 3)
             {
+
                 // shoots a bullet
                 owner.myTrolley.GetComponent<Trolleybehaviour>().ShootPri();
                 GameObject.Instantiate(owner.bullet4Prefab);
@@ -186,6 +186,8 @@ public class P1SHOOTFRONTState : IState
             }
             else {
                 moveTrolleytoDefultPos();
+                owner.mAnimator.SetBool("isManualShout", false);
+
             }
 
         }
@@ -256,6 +258,8 @@ public class P1SHOOTFRONTState : IState
             aligntimer = 0.0f;
             recoilTargetpos = owner.transform.position.x;
             spriVel = 0.0f;
+            owner.mAnimator.SetBool("isManualShout", true);
+
             GameObject.Instantiate(owner.bullet4Prefab);
 
         }
@@ -282,10 +286,13 @@ public class P1SHOOTFRONTState : IState
             float mappedAligntimer = Easing.Cubic.Out(aligntimer);
             owner.myTrolley.transform.position = Vector3.Lerp(tspos, tepos, mappedAligntimer);
         }
+        owner.mAnimator.SetBool("isManualShout", false);
+
     }
     public void Exit()
     {
         owner.mAnimator.SetBool("isManualShout", false);
+
     }
 }
 public class P1DASHFRONTState : IState
@@ -320,10 +327,10 @@ public class P1DASHFRONTState : IState
         owner.currentHealth = 1000;
         currtimer = 0.0f;
         playercollectionpos.Add(owner.player.transform.position.y);
-        dashSpeed = 18; 
+        dashSpeed = 18;
+        owner.mAnimator.SetBool("isManualShout", false);
 
         currstate = state.reseting;
-        owner.mAnimator.SetBool("isManualShout", true);
     }
 
     public void Execute()
@@ -336,6 +343,8 @@ public class P1DASHFRONTState : IState
 
         if (currstate == state.reseting)
         {
+            owner.mAnimator.SetBool("isManualShout", false);
+
             Vector3 p = camera.ViewportToWorldPoint(new Vector3(Random.Range(0.8f, 0.95f), 0.5f, 0));// + new Vector3(0,ypos/2,0);
             newpos = new Vector3(p.x, p.y, 0);
             owner.transform.position += (newpos - owner.transform.position) * Time.deltaTime;
@@ -350,6 +359,7 @@ public class P1DASHFRONTState : IState
         }
         else if (currstate == state.preDash)
         {
+                owner.mAnimator.SetBool("isManualShout", true);
             float ypos = 0;
             for (var i = 0; i < playercollectionpos.Count; i++)
             {
@@ -365,6 +375,7 @@ public class P1DASHFRONTState : IState
             {
                 currstate = state.Dash;
                 currtimer = 0.0f;
+
             }
         }
         else if (currstate == state.Dash)
@@ -486,7 +497,6 @@ public class P1DASHFRONTState : IState
     }
     public void Exit()
     {
-        owner.mAnimator.SetBool("isManualShout", false);
     }
 }
 
@@ -539,6 +549,8 @@ public class P2ARCBOMBARDMENTState : IState
         }
         if (isShooting)
         {
+            owner.mAnimator.SetBool("isManualShout", true);
+
             if (currtimer > shotDelay ) {
                 GameObject.Instantiate(owner.bullet4Prefab);
                 currtimer = 0;
@@ -633,6 +645,7 @@ public class P2ARCBOMBARDMENTState : IState
     }
     public void Exit()
     {
+        owner.mAnimator.SetBool("isManualShout", false);
 
     }
 }

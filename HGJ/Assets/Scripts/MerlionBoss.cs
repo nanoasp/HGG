@@ -490,7 +490,15 @@ public class MerlionBoss : MonoBehaviour
     {
         if (col.gameObject.tag == "PlayerAttack" || col.gameObject.tag == "Player")
         {
+            if (col.gameObject.tag == "PlayerAttack")
+            {
+                Destroy(col.gameObject);
+            }
 
+            if (col.gameObject.tag == "PlayerWater")
+            {
+                col.gameObject.GetComponent<waterdropkillscript>().commitSudoku();
+            }
         }
     }
 }
