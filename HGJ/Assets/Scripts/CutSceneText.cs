@@ -26,6 +26,7 @@ public class CutSceneText : MonoBehaviour
                 mText2.GetComponent<MeshRenderer>().enabled = true;
                 GetComponent<MeshRenderer>().enabled = false;
                 mLife = 4.0f;
+                mTextSlot = 1;
             }
             else
             {
