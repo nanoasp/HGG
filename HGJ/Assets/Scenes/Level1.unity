@@ -1196,6 +1196,12 @@ PrefabInstance:
       propertyPath: mBeamCounter
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 8783726112936270820, guid: c2a2b9210d9c5b342a668ac1778e6695,
+        type: 3}
+      propertyPath: FailScreen
+      value: 
+      objectReference: {fileID: 5996000284059573133, guid: 7cba9a09793f46045afa6c27a5f5ba19,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2a2b9210d9c5b342a668ac1778e6695, type: 3}
 --- !u!1 &987353405

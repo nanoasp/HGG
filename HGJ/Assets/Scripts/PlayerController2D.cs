@@ -238,8 +238,7 @@ public class PlayerController2D : MonoBehaviour
 
     public GameObject ProjectilePrefab;
     public GameObject WaterProjectilePrefab;
-    public GameObject mMainCamera;
-
+    public GameObject FailScreen;
     public GameObject mMarkerOne_obj;
     public GameObject mMarkerTwo_obj;
 
@@ -279,6 +278,8 @@ public class PlayerController2D : MonoBehaviour
     Animator mAnimator;
 
     StateMachine mStateMachine = new StateMachine();
+
+    bool mDead = false;
 
     //////////////////////////////////////////////////////
     ///                                                ///
@@ -345,6 +346,9 @@ public class PlayerController2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (mDead)
+            return;
+
         mStateMachine.Update();
 
         //character movement
@@ -482,7 +486,8 @@ public class PlayerController2D : MonoBehaviour
     {
         if (col.gameObject.tag == "EnemyAttack" || col.gameObject.tag == "Enemy")
         {
-
+            mDead = true;
+            Instantiate(FailScreen, new Vector3(0.0f, 0.0f, -1.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f));
         }
     }
 
