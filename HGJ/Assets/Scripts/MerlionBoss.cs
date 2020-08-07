@@ -59,12 +59,11 @@ public class ML_SingleBeamState : IState
     {
         owner.mIsSingleShot = true;
         owner.mAnimator.SetBool("IsSingleShot", true);
+        player_x = owner.mPlayer.transform.position.x;
     }
 
     public void Execute()
     {
-        player_x = owner.mPlayer.transform.position.x;
-
         if (mStartDelay > 0.0f)
         {
             mStartDelay -= Time.deltaTime;
