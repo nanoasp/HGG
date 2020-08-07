@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ML_IdleState : IState
@@ -450,7 +451,7 @@ public class MerlionBoss : MonoBehaviour
     public float mAttackCounter = 0.0f;
     float mFlickerTime = 0.0f;
 
-    public int mHp = 150;
+    public int mHp = 3000;
     public int mAttackPattern = 0;
     
     public bool mIdle = true;
@@ -469,6 +470,8 @@ public class MerlionBoss : MonoBehaviour
         mStateMachine.RegisterState(new ML_LaserAttackState(this), (int)ML_STATES.LASER_ATTACK);
         mStateMachine.RegisterState(new ML_HeadAttackState(this), (int)ML_STATES.HEAD_ATTACK);
         mAnimator = GetComponent<Animator>();
+        mPlayer = GameObject.FindWithTag("Player");
+        transform.position = new Vector3(5.6f, -0.2f, 90.0f);
     }
 
     // Update is called once per frame
@@ -518,6 +521,10 @@ public class MerlionBoss : MonoBehaviour
             if (!mImmune)
             {
                 mHp--;
+
+                if(mHp < 0)
+                    SceneManager.LoadScene("EndCredits");
+
                 mFlickerTime = 0.5f;
             }
             if (col.gameObject.tag == "PlayerAttack")
