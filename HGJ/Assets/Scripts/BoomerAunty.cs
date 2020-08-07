@@ -44,6 +44,7 @@ public class BoomerAunty : MonoBehaviour
     public StateMachine mStateMachine = new StateMachine();
     SpriteRenderer sr;
     public Animator mAnimator;
+    float mFlickerTime = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -75,13 +76,29 @@ public class BoomerAunty : MonoBehaviour
     void Update()
     {
         mStateMachine.Update();
-        sr.color = new Color(1f, 1f, 1f, 1.0f);
+        if (mFlickerTime > 0.0f)    
+        {
+            float alpha = GetComponent<SpriteRenderer>().color.a;
 
+            if (alpha == 1.0f)
+                GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+            else
+                GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+            mFlickerTime -= Time.deltaTime;
+
+            if (mFlickerTime <= 0.0f)
+                mFlickerTime = 0.0f;
+        }
+        else
+            GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "PlayerAttack")
         {
+            mFlickerTime = 0.5f;
+
             currentHealth--;
             sr.color = new Color(1f, 1f, 1f, .5f);
             Destroy(col.gameObject);
@@ -89,6 +106,8 @@ public class BoomerAunty : MonoBehaviour
 
         if (col.gameObject.tag == "PlayerWater")
         {
+            mFlickerTime = 0.5f;
+
             currentHealth--;
             col.gameObject.GetComponent<waterdropkillscript>().commitSudoku();
         }

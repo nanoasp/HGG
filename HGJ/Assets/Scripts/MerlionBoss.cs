@@ -513,14 +513,24 @@ public class MerlionBoss : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "PlayerAttack" || col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "PlayerAttack" || col.gameObject.tag == "Player" || col.gameObject.tag == "PlayerWater")
         {
             if (!mImmune)
             {
-                Destroy(col.gameObject);
                 mHp--;
                 mFlickerTime = 0.5f;
             }
+            if (col.gameObject.tag == "PlayerAttack")
+            {
+                Destroy(col.gameObject);
+            }
+
+            if (col.gameObject.tag == "PlayerWater")
+            {
+                col.gameObject.GetComponent<waterdropkillscript>().commitSudoku();
+            }
+
+
         }
     }
 }

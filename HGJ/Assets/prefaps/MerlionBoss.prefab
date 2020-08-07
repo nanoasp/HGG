@@ -134,8 +134,10 @@ MonoBehaviour:
   mAnimator: {fileID: 0}
   mAttackInterval: 5
   mAttackCounter: 0
+  mHp: 4000
   mAttackPattern: 5
   mIdle: 1
+  mImmune: 0
   mIsLaserAttack: 0
   mIsSingleShot: 0
 --- !u!61 &1853648037809364348

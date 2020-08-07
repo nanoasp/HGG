@@ -679,11 +679,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5504216228638015554, guid: 993aa404a2949a040a24f805c0cec79a,
-        type: 3}
-      propertyPath: blurSpread
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 5504216228638015555, guid: 993aa404a2949a040a24f805c0cec79a,
         type: 3}
       propertyPath: m_LocalPosition.x
